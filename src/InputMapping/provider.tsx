@@ -1,4 +1,4 @@
-import { createElement, useId } from 'react';
+import { createElement } from 'react';
 import { InputMapping } from './class';
 import { InputMappingContext } from './context';
 import { INPUT_COMPONENTS_KEYS, ParsedField } from './types';
@@ -28,11 +28,8 @@ export const ElementMapping: FC<ParsedField<null, string>> = (props) => {
     const InputMapping = useInputMapping();
 
     const Element = InputMapping.get(props.type);
-    const key = useId();
-
-    const { ...prop } = props;
 
     if (!Element) return null;
 
-    return createElement(Element, { ...prop, key });
+    return createElement(Element, props);
 };
