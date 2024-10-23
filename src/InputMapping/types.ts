@@ -22,6 +22,6 @@ export interface ParsedField<AdditionalRenderable, FieldTypes = string> {
   schema?: ParsedField<AdditionalRenderable, FieldTypes>[]; // For objects and arrays
 }
 
-export type FieldConfig<AdditionalRenderable = {}, FieldTypes = string> = {
+export type FieldConfig<AdditionalRenderable = object, FieldTypes = string> = {
   fieldType?: FieldTypes;
 } & AdditionalRenderable;
