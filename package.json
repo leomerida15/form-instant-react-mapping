@@ -1,6 +1,6 @@
 {
   "name": "@form-instant/react-input-mapping",
-  "version": "0.0.0-alpha",
+  "version": "0.1.0",
   "license": "MIT",
   "author": {
     "name": "leomerida15",
@@ -67,6 +67,7 @@
     "@tsconfig/recommended": "^1.0.7",
     "@tsconfig/vite-react": "^3.0.2",
     "@types/bun": "^1.1.8",
+    "@types/react": "^18.3.12",
     "dts-cli": "^2.0.5",
     "eslint-plugin-prettier": "^5.2.1",
     "husky": "^9.1.5",
