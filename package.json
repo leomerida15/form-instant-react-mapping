@@ -26,7 +26,8 @@
     "size": "size-limit",
     "start": "dts watch",
     "test": "dts test --passWithNoTests",
-    "Up": "npm publish --access public"
+    "Up": "npm publish --access public",
+    "doc:build": "bun nodemon --config docs/nodemon.json"
   },
   "husky": {
     "hooks": {
@@ -67,6 +68,7 @@
     "@tsconfig/vite-react": "^3.0.2",
     "@types/bun": "^1.1.8",
     "dts-cli": "^2.0.5",
+    "eslint-plugin-prettier": "^5.2.1",
     "husky": "^9.1.5",
     "nodemon": "^3.1.4",
     "prettier": "^3.3.3",

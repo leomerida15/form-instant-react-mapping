@@ -1,0 +1,58 @@
+html {
+  overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+  width: 12px;
+  /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent;
+  /* color of the tracking area */
+}
+
+.cover-main > P > img {
+  padding: 0 0 0 105px;
+}
+
+.app-name-link > img {
+  padding: 0 65px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgb(151, 151, 151);
+  /* color of the scroll thumb */
+  border-radius: 20px;
+  /* roundness of the scroll thumb */
+  border: none;
+  /* creates padding around scroll thumb */
+}
+
+span.star {
+  border-radius: 50%;
+  pointer-events: none;
+  position: absolute;
+  background: white;
+  animation: animate 5s linear infinite;
+}
+
+@keyframes animate {
+  0% {
+    transform: scale(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1) translateX(-4000%) rotate(360deg);
+    opacity: 0;
+  }
+}
