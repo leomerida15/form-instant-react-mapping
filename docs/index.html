@@ -1,50 +1,47 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>@rocket-kit/edge</title>
-    <link rel="icon" type="image/x-icon" href="./_media/favicon.svg" />
+    <head>
+        <meta charset="UTF-8" />
+        <title>@rocket-kit/edge</title>
+        <link rel="icon" type="image/x-icon" href="./_media/favicon.svg" />
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="description" content="Description" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css"
-    />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="description" content="Description" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css"
+        />
 
-    <link rel="stylesheet" href="./_media/index.css" />
-    <link
-      rel="stylesheet"
-      href="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css"
-    />
-  </head>
+        <link rel="stylesheet" href="./_media/index.css" />
+        <link
+            rel="stylesheet"
+            href="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css"
+        />
+    </head>
 
-  <body>
-    <div id="app"></div>
-    <script>
-      window.$docsify = {
-        name: '@rocket-kit/edge',
-        repo: 'https://github.com/leomerida15/form-instant-react-mapping',
-        loadSidebar: true,
-        logo: './_media/logo.svg',
-        coverpage: './coverage/_coverpage.md',
-        tabs: {
-          persist: true, // default
-          sync: true, // default
-          theme: 'classic', // default
-          tabComments: true, // default
-          tabHeadings: true, // default
-        },
-        themeColor: '#507C5C',
-        sidebarDisplayLevel: 3, // set sidebar display level
-        footer: {
-          copy: '<span>LatamEarth C.A. &copy; 2024</span> | ',
-          auth: 'by Dimas Merida',
-          pre: `<hr/>
+    <body>
+        <div id="app"></div>
+        <script>
+            window.$docsify = {
+                name: '@rocket-kit/edge',
+                repo: 'https://github.com/leomerida15/form-instant-react-mapping',
+                loadSidebar: true,
+                logo: './_media/logo.svg',
+                coverpage: './coverage/_coverpage.md',
+                tabs: {
+                    persist: true, // default
+                    sync: true, // default
+                    theme: 'classic', // default
+                    tabComments: true, // default
+                    tabHeadings: true, // default
+                },
+                themeColor: '#507C5C',
+                sidebarDisplayLevel: 3, // set sidebar display level
+                footer: {
+                    copy: '<span>LatamEarth C.A. &copy; 2024</span> | ',
+                    auth: 'by Dimas Merida',
+                    pre: `<hr/>
         <a href="https://latamearth.com/">
           <img
             load="lazy"
@@ -53,48 +50,48 @@
           />
         </a>
         `,
-          class: 'className',
-        },
-      };
-    </script>
-    <!-- docsify (latest v4.x.x)-->
-    <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
+                    class: 'className',
+                },
+            };
+        </script>
+        <!-- docsify (latest v4.x.x)-->
+        <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
 
-    <!-- plugins -->
-    <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
-    <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-typescript.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
-    <script src="//unpkg.com/docsify-footer-enh/dist/docsify-footer-enh.min.js"></script>
-    <!-- customn js -->
-    <script>
-      function createSquare() {
-        const section = document.querySelector('.cover');
-        const square = document.createElement('span');
-        square.classList.add('star');
-        const size = Math.random() * -10;
+        <!-- plugins -->
+        <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
+        <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-typescript.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
+        <script src="//unpkg.com/docsify-footer-enh/dist/docsify-footer-enh.min.js"></script>
+        <!-- customn js -->
+        <script>
+            function createSquare() {
+                const section = document.querySelector('.cover');
+                const square = document.createElement('span');
+                square.classList.add('star');
+                const size = Math.random() * -10;
 
-        square.style.width = `${4 + size}px`;
-        square.style.height = `${4 + size}px`;
+                square.style.width = `${4 + size}px`;
+                square.style.height = `${4 + size}px`;
 
-        square.style.top = `${Math.random() * innerHeight}px`;
-        square.style.left = `${Math.random() * innerWidth + 4}px`;
+                square.style.top = `${Math.random() * innerHeight}px`;
+                square.style.left = `${Math.random() * innerWidth + 4}px`;
 
-        section.appendChild(square);
+                section.appendChild(square);
 
-        setTimeout(() => {
-          square.remove();
-        }, 40000);
-      }
+                setTimeout(() => {
+                    square.remove();
+                }, 40000);
+            }
 
-      let init = setInterval(createSquare, 150);
+            let init = setInterval(createSquare, 150);
 
-      window.addEventListener('resize', () => {
-        clearInterval(init);
+            window.addEventListener('resize', () => {
+                clearInterval(init);
 
-        init = setInterval(createSquare, 150);
-      });
-    </script>
-  </body>
+                init = setInterval(createSquare, 150);
+            });
+        </script>
+    </body>
 </html>

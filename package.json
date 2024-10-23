@@ -1,80 +1,74 @@
 {
-  "name": "@form-instant/react-input-mapping",
-  "version": "0.1.0",
-  "license": "MIT",
-  "author": {
-    "name": "leomerida15",
-    "email": "dimasmerida15@gmail.com",
-    "url": "https://github.com/leomerida15"
-  },
-  "main": "dist/index.js",
-  "module": "dist/react-input-mapping.esm.js",
-  "typings": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src"
-  ],
-  "private": false,
-  "exports": {
-    ".": "./src/index.ts"
-  },
-  "scripts": {
-    "analyze": "size-limit --why",
-    "build": "dts build",
-    "lint": "dts lint",
-    "prepare": "dts build",
-    "size": "size-limit",
-    "start": "dts watch",
-    "test": "dts test --passWithNoTests",
-    "Up": "npm publish --access public",
-    "doc:build": "bun nodemon --config docs/nodemon.json"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "dts lint"
-    }
-  },
-  "prettier": {
-    "printWidth": 80,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
-  "jest": {
-    "testEnvironment": "jsdom"
-  },
-  "peerDependencies": {
-    "react": ">=16"
-  },
-  "engines": {
-    "node": ">=12"
-  },
-  "size-limit": [
-    {
-      "path": "dist/react-input-mapping.cjs.production.min.js",
-      "limit": "10 KB"
+    "name": "@form-instant/react-input-mapping",
+    "version": "0.1.0",
+    "license": "MIT",
+    "author": {
+        "name": "leomerida15",
+        "email": "dimasmerida15@gmail.com",
+        "url": "https://github.com/leomerida15"
     },
-    {
-      "path": "dist/react-input-mapping.esm.js",
-      "limit": "10 KB"
+    "main": "dist/index.js",
+    "module": "dist/react-input-mapping.esm.js",
+    "typings": "dist/index.d.ts",
+    "files": [
+        "dist",
+        "src"
+    ],
+    "private": false,
+    "exports": {
+        ".": "./src/index.ts"
+    },
+    "scripts": {
+        "analyze": "size-limit --why",
+        "build": "dts build",
+        "lint": "dts lint",
+        "prepare": "dts build",
+        "size": "size-limit",
+        "start": "dts watch",
+        "test": "dts test --passWithNoTests",
+        "Up": "npm publish --access public",
+        "doc:build": "bun nodemon --config docs/nodemon.json"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "dts lint"
+        }
+    },
+    "jest": {
+        "testEnvironment": "jsdom"
+    },
+    "peerDependencies": {
+        "react": ">=16"
+    },
+    "engines": {
+        "node": ">=12"
+    },
+    "size-limit": [
+        {
+            "path": "dist/react-input-mapping.cjs.production.min.js",
+            "limit": "10 KB"
+        },
+        {
+            "path": "dist/react-input-mapping.esm.js",
+            "limit": "10 KB"
+        }
+    ],
+    "dependencies": {
+        "use-context-selector": "^2.0.0"
+    },
+    "devDependencies": {
+        "@size-limit/preset-small-lib": "^11.1.4",
+        "@tsconfig/recommended": "^1.0.7",
+        "@tsconfig/vite-react": "^3.0.2",
+        "@types/bun": "^1.1.8",
+        "@types/react": "^18.3.12",
+        "dts-cli": "^2.0.5",
+        "eslint-plugin-prettier": "^5.2.1",
+        "husky": "^9.1.5",
+        "nodemon": "^3.1.4",
+        "prettier": "^3.3.3",
+        "size-limit": "^11.1.4",
+        "tslib": "^2.7.0",
+        "typescript": "^5.5.4"
     }
-  ],
-  "dependencies": {
-    "use-context-selector": "^2.0.0"
-  },
-  "devDependencies": {
-    "@size-limit/preset-small-lib": "^11.1.4",
-    "@tsconfig/recommended": "^1.0.7",
-    "@tsconfig/vite-react": "^3.0.2",
-    "@types/bun": "^1.1.8",
-    "@types/react": "^18.3.12",
-    "dts-cli": "^2.0.5",
-    "eslint-plugin-prettier": "^5.2.1",
-    "husky": "^9.1.5",
-    "nodemon": "^3.1.4",
-    "prettier": "^3.3.3",
-    "size-limit": "^11.1.4",
-    "tslib": "^2.7.0",
-    "typescript": "^5.5.4"
-  }
 }

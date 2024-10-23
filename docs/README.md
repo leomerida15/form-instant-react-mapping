@@ -96,16 +96,16 @@ default keys glossary, all values ​​entered by **_k_** will only understand 
 
 ```typescript
 export type INPUT_COMPONENTS_KEYS =
-  | 'checkbox'
-  | 'date'
-  | 'select'
-  | 'radio'
-  | 'switch'
-  | 'textarea'
-  | 'number'
-  | 'file'
-  | 'text'
-  | 'fallback';
+    | 'checkbox'
+    | 'date'
+    | 'select'
+    | 'radio'
+    | 'switch'
+    | 'textarea'
+    | 'number'
+    | 'file'
+    | 'text'
+    | 'fallback';
 ```
 
 #### \* **_create global provider_**
@@ -116,8 +116,9 @@ We created a global provider to be able to access input mapping.
 import { createFormInstantContainer } from '@form-instant/react-input-mapping';
 import { inputMapping, P, K } from './inputMapping.tsx';
 
-export const { FormInstantInputsProvider, useInputMapping } =
-  createFormInstantContainer<P, K>(inputMapping);
+export const { FormInstantInputsProvider, useInputMapping } = createFormInstantContainer<P, K>(
+    inputMapping,
+);
 ```
 
 we add our provider in the root of the **_vite_** project "./App.tsx" and **_next.js_** "layout.tsx" in the root.
@@ -169,62 +170,63 @@ To use our resolver we must instantiate the function to generate the **_fieldCon
 import { createFormInstantContainer } from '@form-instant/react-input-mapping';
 import { inputMapping, P, K, extendProps } from './inputMapping.tsx';
 
-export const { FormInstantInputsProvider, useInputMapping } =
-  createFormInstantContainer<P, K>(inputMapping);
+export const { FormInstantInputsProvider, useInputMapping } = createFormInstantContainer<P, K>(
+    inputMapping,
+);
 
 export const fieldConfig = createZodSchemaFieldConfig<extendProps>();
 ```
 
 #### \* **_build form_**
 
-- schema:
+-   schema:
 
 ```typescript
 import { z } from 'zod';
 import { fieldConfig } from './providers';
 
 export const formSchema = z.object({
-  security_data: z
-    .object({
-      email: z
-        .string()
-        .email()
-        .superRefine(
-          fieldConfig({
-            fieldType: 'email',
-            placeholder: 'example@mal.com',
-          })
-        ),
-      password: z.string().superRefine(
-        fieldConfig({
-          type: 'password',
-          placeholder: '******',
+    security_data: z
+        .object({
+            email: z
+                .string()
+                .email()
+                .superRefine(
+                    fieldConfig({
+                        fieldType: 'email',
+                        placeholder: 'example@mal.com',
+                    }),
+                ),
+            password: z.string().superRefine(
+                fieldConfig({
+                    type: 'password',
+                    placeholder: '******',
+                }),
+            ),
+            confirm: z.string(),
         })
-      ),
-      confirm: z.string(),
-    })
-    .refine(({ confirm, password }) => confirm !== password, {
-      message: 'the confim password is diferent to password',
+        .refine(({ confirm, password }) => confirm !== password, {
+            message: 'the confim password is diferent to password',
+        }),
+
+    personal_data: z.object({
+        last_name: z.string().superRefine(
+            fieldConfig({
+                placeholder: 'select date',
+            }),
+        ),
+        firse_name: z.string(),
+
+        birthday: z.coerce.date().optional(),
+
+        code: z.string(),
     }),
-
-  personal_data: z.object({
-    last_name: z.string().superRefine(
-      fieldConfig({
-        placeholder: 'select date',
-      })
-    ),
-    firse_name: z.string(),
-
-    birthday: z.coerce.date().optional(),
-
-    code: z.string(),
-  }),
 });
 
 export type formSchemaType = Zod.infer<typeof formSchema>;
 ```
 
-- component
+-   component
 
 ```typescript
 import {
