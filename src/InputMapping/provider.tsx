@@ -1,7 +1,7 @@
-import { createElement } from 'react';
+import { createElement, useId } from 'react';
 import { InputMapping } from './class';
 import { InputMappingContext } from './context';
-import { INPUT_COMPONENTS_KEYS } from './types';
+import { INPUT_COMPONENTS_KEYS, ParsedField } from './types';
 import { useInputMapping } from './useInputMapping';
 
 interface createFormInstantContainerRetuen<P = object, K extends string = INPUT_COMPONENTS_KEYS> {
@@ -22,4 +22,17 @@ export const createFormInstantContainer = <P = object, K extends string = INPUT_
         FormInstantInputsProvider,
         useInputMapping,
     } as createFormInstantContainerRetuen<P, K>;
+};
+
+export const ElementMapping: FC<ParsedField<null, string>> = (props) => {
+    const InputMapping = useInputMapping();
+
+    const Element = InputMapping.get(props.type);
+    const key = useId();
+
+    const { ...prop } = props;
+
+    if (!Element) return null;
+
+    return createElement(Element, { ...prop, key });
 };
