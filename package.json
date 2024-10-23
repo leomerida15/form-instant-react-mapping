@@ -70,5 +70,15 @@
         "size-limit": "^11.1.4",
         "tslib": "^2.7.0",
         "typescript": "^5.5.4"
-    }
+    },
+    "homepage": "https://leomerida15.github.io/form-instant-react-mapping",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/leomerida15/form-instant-react-mapping.git"
+    },
+    "keywords": [
+        "@form-instant",
+        "react",
+        "mapping"
+    ]
 }
