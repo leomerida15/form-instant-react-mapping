@@ -1,4 +1,3 @@
-'use client';
 import { createContext } from 'use-context-selector';
 import { InputMapping } from './class';
 

@@ -1,4 +1,3 @@
-'use client';
 import { useReducer, useRef } from 'react';
 import { useContext } from 'use-context-selector';
 import { InputMapping } from './class';
