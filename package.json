@@ -1,6 +1,6 @@
 {
     "name": "@form-instant/react-input-mapping",
-    "version": "0.1.9",
+    "version": "0.1.11",
     "license": "MIT",
     "author": {
         "name": "leomerida15",
@@ -11,13 +11,8 @@
     "module": "dist/react-input-mapping.esm.js",
     "typings": "dist/index.d.ts",
     "files": [
-        "dist",
-        "src"
+        "dist"
     ],
-    "private": false,
-    "exports": {
-        ".": "./src/index.ts"
-    },
     "scripts": {
         "analyze": "size-limit --why",
         "build": "dts build",
