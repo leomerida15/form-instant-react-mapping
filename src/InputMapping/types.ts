@@ -11,7 +11,7 @@ export type INPUT_COMPONENTS_KEYS =
     | 'fallback';
 
 export interface ParsedField<AdditionalRenderable, FieldTypes = string> {
-    key: string;
+    name: { current: string; history: string };
     type: string;
     required: boolean;
     default?: any;
