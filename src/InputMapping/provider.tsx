@@ -24,10 +24,10 @@ export const createFormInstantContainer = <P = object, K extends string = INPUT_
     } as createFormInstantContainerRetuen<P, K>;
 };
 
-export const ElementMapping: FC<{ formProps: ParsedField<null, string> }> = ({ formProps }) => {
+export const ElementMapping: FC<{ formProps: ParsedField<any, string> }> = ({ formProps }) => {
     const InputMapping = useInputMapping();
 
-    const Element = InputMapping.get(formProps.type);
+    const Element = InputMapping.get(formProps.fieldConfig?.type || formProps.type);
 
     if (!Element) return null;
 
