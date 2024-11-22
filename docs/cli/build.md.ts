@@ -9,9 +9,9 @@ import { extname, join, resolve } from 'node:path';
         const combinedContent = readdirSync(directoryPath)
             .reverse()
             .filter((file) => extname(file) === '.md')
+            .sort()
             .map((file) => join(directoryPath, file))
             .map((file) => readFileSync(file, 'utf8'))
-            .reverse()
             .join('\n');
 
         unlinkSync(resolve('docs', 'README.md'));

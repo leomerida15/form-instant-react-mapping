@@ -57,37 +57,53 @@ import {
   InputMapping
 } from "@form-instant/react-input-mapping";
 
-exprot type extendProps = React.InputHTMLAttributes<HTMLInputElement>;
-
-export type P = Record<
-  string,
-  ParsedField<extendProps, string>
+export type ExtendProps = React.InputHTMLAttributes<HTMLInputElement>;
+export type P = ParsedField<
+  ExtendProps,
+  string
 >;
-export type K = "email" | "password" | "date";
+export type K = "email" | "password";
 
-export const inputMapping = new InputMapping<P, K>({
+const inputMapping = new InputMapping<P, K>({
   fallback: (props) => {
-    const { fieldConfig, ...prop } = props;
+    const { fieldConfig, name, ...prop } = props;
 
     return <input {...prop} {...fieldConfig} />;
   },
   textarea: () => <textarea />,
-  number: () => <input type="number" />,
+  number: (props) => {
+    const { fieldConfig, name, ...prop } = props;
+
+    return <input {...prop} {...fieldConfig} />;
+  },
   text: (props) => {
-    const { fieldConfig, ...prop } = props;
+    const { fieldConfig, name, ...prop } = props;
 
     return <input {...prop} {...fieldConfig} />;
   },
   date: () => <input type="date" />,
   email: (props) => {
-    const { fieldConfig, ...prop } = props;
+    const { fieldConfig, name, ...prop } = props;
 
     return <input {...prop} {...fieldConfig} />;
   },
   password: (props) => {
-    const { fieldConfig, ...prop } = props;
+    const { fieldConfig, name, ...prop } = props;
 
     return <input {...prop} {...fieldConfig} />;
+  },
+  select: (props) => {
+    const { options } = props;
+
+    return (
+      <select>
+        {options?.map(([k, v]) => (
+          <option key={k} value={k}>
+            {v}
+          </option>
+        ))}
+      </select>
+    );
   },
 });
 ```
@@ -162,71 +178,56 @@ export default App;
 
 <!-- tabs:end -->
 
-#### \* **_use resolver_**
+#### **_use resolver_**
 
-To use our resolver we must instantiate the function to generate the **_fieldConfig_**.
+To use our resolver we must add the function **_fieldConfig_**.
+
+<!-- tabs:start -->
+
+#### **zod**
+
+generate provider and hook by use resolver.
 
 ```typescript
 import { createFormInstantContainer } from '@form-instant/react-input-mapping';
 import { inputMapping, P, K, extendProps } from './inputMapping.tsx';
 
-export const { FormInstantInputsProvider, useInputMapping } = createFormInstantContainer<P, K>(
+export const { FormInstantInputsProvider, useInputMapping, useSchema } = createFormInstantContainer<P, K>(
     inputMapping,
 );
-
-export const fieldConfig = createZodSchemaFieldConfig<extendProps>();
 ```
 
-#### \* **_build form_**
-
--   schema:
+add **_fieldConfig_** in the zod schema.
 
 ```typescript
 import { z } from 'zod';
-import { fieldConfig } from './providers';
 
-export const formSchema = z.object({
-    security_data: z
-        .object({
-            email: z
-                .string()
-                .email()
-                .superRefine(
-                    fieldConfig({
-                        fieldType: 'email',
-                        placeholder: 'example@mal.com',
-                    }),
-                ),
-            password: z.string().superRefine(
-                fieldConfig({
-                    type: 'password',
-                    placeholder: '******',
-                }),
-            ),
-            confirm: z.string(),
-        })
-        .refine(({ confirm, password }) => confirm !== password, {
-            message: 'the confim password is diferent to password',
-        }),
+extendZodWithFieldConfig<React.InputHTMLAttributes<HTMLInputElement>>(z);
 
-    personal_data: z.object({
-        last_name: z.string().superRefine(
-            fieldConfig({
-                placeholder: 'select date',
-            }),
-        ),
-        firse_name: z.string(),
+export { z };
+```
 
-        birthday: z.coerce.date().optional(),
+<!-- tabs:end -->
 
-        code: z.string(),
-    }),
+#### \* **_build form_**
+
+- schema:
+
+```typescript
+import { z } from 'zod';
+
+const formSchema = z.object({
+  data: z.object({
+    email: z.string().email(),
+    password: z.string(),,
+    confirm: z.string(),
+  })
 });
 
 export type formSchemaType = Zod.infer<typeof formSchema>;
 ```
 
--   component
+- component
 
 ```typescript
 import {
@@ -252,4 +253,249 @@ export const Forms = () => {
     </form>
   );
 };
+```
+
+## **_special inputs_**
+
+### **use-formInstantField**
+
+#### **by object**
+
+```typescript
+import { Fragment } from "react";
+import { ElementMapping, ParsedField, useFormInstantField } from "@form-instant/react-input-mapping";
+import { P } from "@/providers";
+
+export const ObjectComp: FC<P> = (props) => {
+  const { fiends, fieldConfig, ...prop } = useFormInstantField<P>(props);
+  const id = useId();
+
+  return (
+    <div {...{ ...fieldConfig, ...prop }}>
+      {fiends.map((prop) => {
+        return (
+          <Fragment key={`${id}-${prop.name.history}`}>
+            <ElementMapping formProps={prop} />
+          </Fragment>
+        );
+      })}
+    </div>
+  );
+};
+```
+
+#### **by array**
+
+```typescript
+import { Fragment, useId } from "react";
+import { ElementMapping, ParsedField, useFormInstantField } from "@form-instant/react-input-mapping";
+import { P } from "@/providers";
+
+
+export const ArrayComp: FC<P> = (props) => {
+  const { fiends, fieldConfig, ...prop } = useFormInstantField<P>(props);
+  const id = useId();
+
+  return (
+    <div {...{ ...fieldConfig, ...prop }}>
+      {fiends.map((prop, index) => {
+        return (
+          <Fragment key={`${id}-${prop.name.history}`}>
+            <div>
+              <ElementMapping formProps={prop} />
+              <button onClick={() => append()}>+</button>
+              <button onClick={() => remove(index)}>-</button>
+            </div>
+            <br />
+            <br />
+          </Fragment>
+        );
+      })}
+    </div>
+  );
+};
+```
+
+## **_reactive schemas_**
+
+### **fieldConfig**
+
+```typescript
+import { Fragment, useId } from "react";
+import { ElementMapping, useFormInstantField } from "@form-instant/react-input-mapping";
+import { FormInstantElement, FormInstantProvider } from "@form-instant/react-resolver-zod";
+import { P } from "@/providers";
+import { z } from '@/zod';
+
+const formSchema = z.object({
+  data: z.object({
+    email: z.string().email().fieldConfig({
+      fieldType: "email",
+      placeholder: "example@mal.com",
+    }),
+    password: z.string().fieldConfig({
+      fieldType: "password",
+      placeholder: "******",
+    }),
+    confirm: z.string(),
+  })
+});
+
+export const FromComp = (props) => {
+
+  return (
+    <>
+      <FormInstantProvider schema={schema}>
+        <h1>your form </h1>
+        <div>
+           <br />
+          <FormInstantElement<formSchemaType> name="data" />
+        </div>
+        <button>
+          submit
+        </button>
+      </FormInstantProvider>
+    </>
+  );
+};
+```
+
+### **use-schema**
+
+**useSchema** is a hook, receives two values, a callback and a dependencies object, the callback will be executed when the dependencies change, similar to a useEffect, the callback receives as a parameter the same dependencies object, the callback must always return a valid zod schema..
+
+```typescript
+  const [dependencies, setDependencies] = useState({ status: "ok" });
+
+  const { schema } = useSchema((dependencies /* is a dependencies object */) => {
+    return formSchema;
+  }, dependencies);
+```
+
+Example with react-hook-form we must remember that they can use the form hook or form solution that the developer prefers, in this example shows the usage for conditional rendering using the **z.discriminatedUnion** method of **zod**.
+
+When used in **z.discriminatedUnion**, an array of objects is received, where the first object is the input of the discriminant condition and will have the **discriminator** type, with this key or the **fiendType** that you pass in the **fiendConfig** you can capture this value in the mapping.
+
+```typescript
+import { Fragment, useId } from "react";
+import { ElementMapping, ParsedField, useFormInstantField } from "@form-instant/react-input-mapping";
+import { FormInstantElement, FormInstantProvider } from "@form-instant/react-resolver-zod";
+import { FormInstantInputsProvider, useInputMapping, useSchema } from "@/resolver";
+import { P } from "@/providers";
+import { z } from '@/zod';
+
+const formSchema = z.object({
+  data: z.discriminatedUnion("status", [
+    z.object({
+      status: z.literal("ok"),
+
+      code: z.string(),
+    }),
+    z.object({
+      status: z.literal("not"),
+
+      birthday: z.coerce.date(),
+    }),
+  ]),
+});
+
+export const FromComp = (props) => {
+
+  // define state by dependecys
+  const [dependencies, setDependencies] = useState({ status: "" });
+
+  const { schema } = useSchema(() => {
+    return formSchema;
+  }, dependencies);
+
+  const form = useForm<Zod.infer<typeof schema>>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      data: {
+        status: "ok",
+      },
+    },
+  });
+
+  useEffect(() => {
+
+    /* This way of capturing and formatting form data was
+    taken from the useFormValues ​​hook
+    recommended by react-hook-form */
+    const fromValues = {
+      ...form.getValues(),
+      ...form.watch(),
+    };
+
+    if (
+      !dependencies.status ||
+      dependencies.status !== fromValues.data.status
+    ) {
+
+      setDependencies((prev) => {
+        return {
+          ...prev,
+          status: fromValues.data.status,
+        };
+      });
+    }
+  }, [form.watch(), dependencies]);
+
+  const onSubmit = form.handleSubmit(
+    (data) => {
+      console.log("data", data);
+    },
+    (err) => {
+      console.log("err", err);
+    }
+  );
+
+  return (
+    <form onSubmit={onSubmit}>
+      <FormProvider {...form}>
+        <FormInstantProvider schema={schema}>
+          <h1>your form </h1>
+          <div>
+             <br />
+            <FormInstantElement<formSchemaType> name="data" />
+          </div>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              const pre = form.getValues("personal_data.status");
+
+              form.setValue(
+                "personal_data.status",
+                pre === "not" ? "ok" : "not"
+              );
+            }}
+          >
+            switch
+          </button>
+        </FormInstantProvider>
+      </FormProvider>
+    </form>
+  );
+};
+```
+
+discriminator component example.
+
+```tsx
+import { FC } from "react";
+import { P } from "@/providers";
+
+const discriminator: FC<P> = (props) => {
+  const { options } = props;
+
+  return (
+    <select>
+      {options?.map(([k, v]) => (
+        <option key={k} value={k}>
+          {v}
+        </option>
+      ))}
+    </select>
+  );
+}
 ```
