@@ -186,6 +186,17 @@ To use our resolver we must add the function **_fieldConfig_**.
 
 #### **zod**
 
+generate provider and hook by use resolver.
+
+```typescript
+import { createFormInstantContainer } from '@form-instant/react-input-mapping';
+import { inputMapping, P, K, extendProps } from './inputMapping.tsx';
+
+export const { FormInstantInputsProvider, useInputMapping } = createFormInstantContainer<P, K>(
+    inputMapping,
+);
+```
+
 add **_fieldConfig_** in the zod schema.
 
 ```typescript
@@ -354,11 +365,11 @@ export const FromComp = (props) => {
 **useSchema** is a hook, receives two values, a callback and a dependencies object, the callback will be executed when the dependencies change, similar to a useEffect, the callback receives as a parameter the same dependencies object, the callback must always return a valid zod schema..
 
 ```typescript
-const [dependencies, setDependencies] = useState({ status: 'ok' });
+  const [dependencies, setDependencies] = useState({ status: "ok" });
 
-const { schema } = useSchema((dependencies /* is a dependencies object */) => {
+  const { schema } = useSchema((dependencies /* is a dependencies object */) => {
     return formSchema;
-}, dependencies);
+  }, dependencies);
 ```
 
 Example with react-hook-form we must remember that they can use the form hook or form solution that the developer prefers, in this example shows the usage for conditional rendering using the **z.discriminatedUnion** method of **zod**.
@@ -471,20 +482,20 @@ export const FromComp = (props) => {
 discriminator component example.
 
 ```tsx
-import { FC } from 'react';
-import { P } from '@/providers';
+import { FC } from "react";
+import { P } from "@/providers";
 
 const discriminator: FC<P> = (props) => {
-    const { options } = props;
+  const { options } = props;
 
-    return (
-        <select>
-            {options?.map(([k, v]) => (
-                <option key={k} value={k}>
-                    {v}
-                </option>
-            ))}
-        </select>
-    );
-};
+  return (
+    <select>
+      {options?.map(([k, v]) => (
+        <option key={k} value={k}>
+          {v}
+        </option>
+      ))}
+    </select>
+  );
+}
 ```
