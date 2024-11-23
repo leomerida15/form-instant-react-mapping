@@ -192,7 +192,7 @@ generate provider and hook by use resolver.
 import { createFormInstantContainer } from '@form-instant/react-input-mapping';
 import { inputMapping, P, K, extendProps } from './inputMapping.tsx';
 
-export const { FormInstantInputsProvider, useInputMapping, useSchema } = createFormInstantContainer<P, K>(
+export const { FormInstantInputsProvider, useInputMapping } = createFormInstantContainer<P, K>(
     inputMapping,
 );
 ```
@@ -379,8 +379,8 @@ When used in **z.discriminatedUnion**, an array of objects is received, where th
 ```typescript
 import { Fragment, useId } from "react";
 import { ElementMapping, ParsedField, useFormInstantField } from "@form-instant/react-input-mapping";
-import { FormInstantElement, FormInstantProvider } from "@form-instant/react-resolver-zod";
-import { FormInstantInputsProvider, useInputMapping, useSchema } from "@/resolver";
+import { FormInstantElement, FormInstantProvider, useSchema } from "@form-instant/react-resolver-zod";
+import { FormInstantInputsProvider, useInputMapping } from "@/resolver";
 import { P } from "@/providers";
 import { z } from '@/zod';
 
