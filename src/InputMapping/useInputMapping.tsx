@@ -1,5 +1,4 @@
-import { useReducer, useRef } from 'react';
-import { useContext } from 'use-context-selector';
+import { useContext, useReducer, useRef } from 'react';
 import { InputMapping } from './class';
 import { InputMappingContext } from './context';
 
