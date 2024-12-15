@@ -1,6 +1,6 @@
 {
     "name": "@form-instant/react-input-mapping",
-    "version": "1.5.0",
+    "version": "1.6.0",
     "author": {
         "name": "leomerida15",
         "email": "dimasmerida15@gmail.com",
@@ -72,5 +72,8 @@
             "limit": "10 KB"
         }
     ],
-    "typings": "dist/index.d.ts"
+    "typings": "dist/index.d.ts",
+    "dependencies": {
+        "use-context-selector": "^2.0.0"
+    }
 }
