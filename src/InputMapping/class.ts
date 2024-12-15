@@ -26,8 +26,10 @@ export class InputMapping<P = object, K extends string = INPUT_COMPONENTS_KEYS> 
 
         type Ky = MergeKeys<K, INPUT_COMPONENTS_KEYS>;
 
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         for (const key of keys) this.set(key as Ky, obj[key]!);
 
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         for (const [k, v] of this.zodAdacter()) this.set(k as Ky, this.get(v)!);
     }
 

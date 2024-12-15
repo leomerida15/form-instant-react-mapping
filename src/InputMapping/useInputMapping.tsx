@@ -1,6 +1,7 @@
-import { useContext, useReducer, useRef } from 'react';
+import { useReducer, useRef } from 'react';
 import { InputMapping } from './class';
 import { InputMappingContext } from './context';
+import { useContext } from 'use-context-selector';
 
 export const useInputMapping = () => {
     const initialState = useContext(InputMappingContext);
