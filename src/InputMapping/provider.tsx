@@ -6,37 +6,35 @@ import { ObBase, ParsedField } from './types';
 type FCC = React.FC<{ children: ReactNode }>;
 
 interface createFormInstantContainerReturn<Ob extends Record<ObBase, any>> {
-  useInputMapping: Context<InputMapping<Ob>>;
-  FormInstantInputsProvider: FCC;
+    useInputMapping: Context<InputMapping<Ob>>;
+    FormInstantInputsProvider: FCC;
 }
 
 export const createFormInstantContainer = <Ob extends Record<any, any>>(
-  inputMapping: InputMapping<Ob>
+    inputMapping: InputMapping<Ob>,
 ) => {
-  const FormInstantInputsProvider: FCC = (props) =>
-    createElement(InputMappingContext.Provider, {
-      value: inputMapping,
-      children: props.children,
-    });
+    const FormInstantInputsProvider: FCC = (props) =>
+        createElement(InputMappingContext.Provider, {
+            value: inputMapping,
+            children: props.children,
+        });
 
-  const useInputMapping = () => useContext(InputMappingContext);
+    const useInputMapping = () => useContext(InputMappingContext);
 
-  return {
-    FormInstantInputsProvider,
-    useInputMapping,
-  } as unknown as createFormInstantContainerReturn<Ob>;
+    return {
+        FormInstantInputsProvider,
+        useInputMapping,
+    } as unknown as createFormInstantContainerReturn<Ob>;
 };
 
 export const ElementMapping: FC<{ formProps: ParsedField<any, string> }> = ({ formProps }) => {
-  if (!InputMappingContext) return null;
+    const InputMapping = useContext(InputMappingContext);
 
-  const InputMapping = useContext(InputMappingContext);
+    const type = formProps.fieldType;
 
-  const type = formProps.fieldType;
+    const Element = InputMapping.get(type);
 
-  const Element = InputMapping.get(type);
+    if (!Element) return null;
 
-  if (!Element) return null;
-
-  return createElement(Element, formProps);
+    return createElement(Element, formProps);
 };
