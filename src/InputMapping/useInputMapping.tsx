@@ -1,30 +1,31 @@
-import { useReducer, useRef } from 'react';
+import { useReducer, useRef, useContext } from 'react';
 import { InputMapping } from './class';
-import { InputMappingContext } from './context';
-import { useContext } from 'use-context-selector';
 
-export const useInputMapping = () => {
-    const initialState = useContext(InputMappingContext);
-    const mapRef = useRef(initialState);
-    const [, reRender] = useReducer((x) => x + 1, 0);
+export function createInputMappingHook<Ob extends Record<string, any>>(
+    InputMappingContext: React.Context<InputMapping<Ob> | null>,
+) {
+    return function useInputMapping() {
+        const initialState = useContext(InputMappingContext);
+        if (!initialState) throw new Error('InputMappingContext not found');
+        const mapRef = useRef(initialState);
+        const [, reRender] = useReducer((x) => x + 1, 0);
 
-    mapRef.current.set = (...args) => {
-        InputMapping.prototype.set.apply(mapRef.current, args);
-        reRender();
-        return mapRef.current;
+        return {
+            ...mapRef.current,
+            set: (key: keyof Ob | string, value: React.FC<any>) => {
+                const result = mapRef.current.set(key, value);
+                reRender();
+                return result;
+            },
+            clear: () => {
+                mapRef.current.clear();
+                reRender();
+            },
+            delete: (key: keyof Ob | string) => {
+                const result = mapRef.current.delete(key);
+                reRender();
+                return result;
+            },
+        };
     };
-
-    mapRef.current.clear = (...args) => {
-        InputMapping.prototype.clear.apply(mapRef.current, args);
-        reRender();
-    };
-
-    mapRef.current.delete = (...args) => {
-        const res = InputMapping.prototype.delete.apply(mapRef.current, args);
-        reRender();
-
-        return res;
-    };
-
-    return mapRef.current;
-};
+}

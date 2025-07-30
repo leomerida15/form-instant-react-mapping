@@ -1,6 +1,6 @@
 {
     "name": "@form-instant/react-input-mapping",
-    "version": "1.6.0",
+    "version": "1.8.0",
     "author": {
         "name": "leomerida15",
         "email": "dimasmerida15@gmail.com",
@@ -17,6 +17,7 @@
         "@tsconfig/recommended": "^1.0.7",
         "@tsconfig/vite-react": "^3.0.2",
         "@types/bun": "^1.1.8",
+        "@types/minimatch": "^5.1.2",
         "@types/react": "^18.3.12",
         "dts-cli": "^2.0.5",
         "eslint-plugin-prettier": "^5.2.1",
@@ -60,6 +61,7 @@
         "start": "dts watch",
         "test": "dts test --passWithNoTests",
         "Up": "npm publish --access public",
+        "Up:rc": "npm publish --access public --tag rc",
         "doc:build": "bun nodemon --config docs/nodemon.json"
     },
     "size-limit": [
@@ -74,6 +76,6 @@
     ],
     "typings": "dist/index.d.ts",
     "dependencies": {
-        "use-context-selector": "^2.0.0"
+        "minimatch": "^10.0.3"
     }
 }

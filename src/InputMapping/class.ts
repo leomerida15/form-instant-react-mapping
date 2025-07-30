@@ -1,14 +1,17 @@
 import { FC } from 'react';
-import { INPUT_COMPONENTS_KEYS } from './types';
+import { INPUT_COMPONENTS_KEYS, ParsedField } from './types';
 
-type MergeKeys<T, U> = {
-    [K in keyof T | keyof U]: K extends keyof T ? T[K] : K extends keyof U ? U[K] : never;
+// Nuevo tipo auxiliar para mapear cada clave a su componente correspondiente
+// Ahora el value depende de la key: si es de Ob, es FC<Ob[K]>; si es de INPUT_COMPONENTS_KEYS, es FC<any>
+type InputComponentMap<Ob extends Record<string, any>> = {
+    [K in keyof Ob]?: FC<ParsedField<Ob[K]>>;
+} & {
+    [K in INPUT_COMPONENTS_KEYS]?: FC<any>;
 };
 
-// K extiende de INPUT_COMPONENTS_KEYS y puede incluir más claves personalizadas
-export class InputMapping<P = object, K extends string = INPUT_COMPONENTS_KEYS> extends Map<
-    MergeKeys<K, INPUT_COMPONENTS_KEYS>,
-    FC<P>
+export class InputMapping<Ob extends Record<string, any>> extends Map<
+    keyof Ob | INPUT_COMPONENTS_KEYS,
+    FC<any>
 > {
     private zodAdacter() {
         return Object.entries({
@@ -21,52 +24,59 @@ export class InputMapping<P = object, K extends string = INPUT_COMPONENTS_KEYS> 
         });
     }
 
-    private appendObj(obj: Partial<Record<K | INPUT_COMPONENTS_KEYS, FC<P>>>) {
-        const keys = Object.keys(obj) as Array<K | INPUT_COMPONENTS_KEYS>;
+    private appendObj(obj: Partial<InputComponentMap<Ob>>) {
+        const keys = Object.keys(obj) as Array<keyof typeof obj>;
 
-        type Ky = MergeKeys<K, INPUT_COMPONENTS_KEYS>;
+        for (const key of keys) {
+            const value = obj[key];
+            if (value && (key as string) in ({} as Ob)) {
+                this.set(key as keyof Ob, value as FC<Ob[keyof Ob]>);
+            } else if (value) {
+                this.set(key as INPUT_COMPONENTS_KEYS, value as FC<any>);
+            }
+        }
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        for (const key of keys) this.set(key as Ky, obj[key]!);
-
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        for (const [k, v] of this.zodAdacter()) this.set(k as Ky, this.get(v)!);
+        for (const [k, v] of this.zodAdacter()) {
+            const existingValue = this.get(v as INPUT_COMPONENTS_KEYS);
+            if (existingValue) {
+                this.set(k as INPUT_COMPONENTS_KEYS, existingValue);
+            }
+        }
     }
 
-    constructor(obj?: Partial<Record<K | INPUT_COMPONENTS_KEYS, FC<P>>>) {
+    constructor(obj?: Partial<InputComponentMap<Ob>>) {
         super();
-
         if (!obj) return;
-
         this.appendObj(obj);
     }
 
     exists(k: string) {
-        const isHas = super.has(k as MergeKeys<K, INPUT_COMPONENTS_KEYS>);
-
+        const isHas = super.has(k as keyof Ob | INPUT_COMPONENTS_KEYS);
         if (!isHas) return 'fallback';
-
-        return k as MergeKeys<K, INPUT_COMPONENTS_KEYS>;
+        return k as keyof Ob | INPUT_COMPONENTS_KEYS;
     }
 
-    get(k: MergeKeys<K, INPUT_COMPONENTS_KEYS> | string) {
-        return super.get(k as MergeKeys<K, INPUT_COMPONENTS_KEYS>);
+    get<Ky extends keyof Ob | INPUT_COMPONENTS_KEYS>(k: Ky) {
+        return super.get(k);
     }
 
-    set(k: MergeKeys<K, INPUT_COMPONENTS_KEYS>, v: FC<P>) {
+    set<K extends keyof Ob>(k: K, v: FC<Ob[K]>): this;
+    set<K extends INPUT_COMPONENTS_KEYS>(k: K, v: FC<any>): this;
+    set(k: keyof Ob | INPUT_COMPONENTS_KEYS, v: FC<any>): this {
         if (!super.has(k)) super.set(k, v);
-
         return this;
     }
 
-    extends(cb: (mapingp: InputMapping<P, K | INPUT_COMPONENTS_KEYS>) => Record<never, FC<P>>) {
-        const obj = Object.fromEntries(super.entries()) as Record<string, FC<P>>;
-
-        const extendObj = cb(this as unknown as InputMapping<P, K | INPUT_COMPONENTS_KEYS>);
-
-        return new InputMapping<P, K | INPUT_COMPONENTS_KEYS>({
+    extends<Ext extends Record<string, FC<any>>>(
+        cb: (mapping: InputMapping<Ob & { [K in keyof Ext]: any }>) => Ext,
+    ) {
+        const obj = Object.fromEntries(super.entries()) as Partial<
+            InputComponentMap<Ob & { [K in keyof Ext]: any }>
+        >;
+        const extendObj = cb(this as InputMapping<Ob & { [K in keyof Ext]: any }>);
+        return new InputMapping<Ob & { [K in keyof Ext]: any }>({
             ...obj,
             ...extendObj,
-        } as Record<K | INPUT_COMPONENTS_KEYS, FC<P>>);
+        });
     }
 }

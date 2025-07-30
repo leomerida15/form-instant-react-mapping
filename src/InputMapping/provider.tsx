@@ -1,37 +1,42 @@
-import { createElement } from 'react';
+import { Context, createElement, FC, ReactNode, useContext } from 'react';
 import { InputMapping } from './class';
 import { InputMappingContext } from './context';
-import { INPUT_COMPONENTS_KEYS, ParsedField } from './types';
-import { useInputMapping } from './useInputMapping';
+import { ObBase, ParsedField } from './types';
 
-interface createFormInstantContainerRetuen<P = object, K extends string = INPUT_COMPONENTS_KEYS> {
-    useInputMapping: () => InputMapping<P, K>;
-    FormInstantInputsProvider: FCC;
+type FCC = React.FC<{ children: ReactNode }>;
+
+interface createFormInstantContainerReturn<Ob extends Record<ObBase, any>> {
+  useInputMapping: Context<InputMapping<Ob>>;
+  FormInstantInputsProvider: FCC;
 }
 
-export const createFormInstantContainer = <P = object, K extends string = INPUT_COMPONENTS_KEYS>(
-    inputMapping: InputMapping<P, K>,
+export const createFormInstantContainer = <Ob extends Record<any, any>>(
+  inputMapping: InputMapping<Ob>
 ) => {
-    const FormInstantInputsProvider: FCC = (props) =>
-        createElement(InputMappingContext.Provider, {
-            value: inputMapping as InputMapping,
-            children: props.children,
-        });
+  const FormInstantInputsProvider: FCC = (props) =>
+    createElement(InputMappingContext.Provider, {
+      value: inputMapping,
+      children: props.children,
+    });
 
-    return {
-        FormInstantInputsProvider,
-        useInputMapping,
-    } as createFormInstantContainerRetuen<P, K>;
+  const useInputMapping = () => useContext(InputMappingContext);
+
+  return {
+    FormInstantInputsProvider,
+    useInputMapping,
+  } as unknown as createFormInstantContainerReturn<Ob>;
 };
 
 export const ElementMapping: FC<{ formProps: ParsedField<any, string> }> = ({ formProps }) => {
-    const InputMapping = useInputMapping();
+  if (!InputMappingContext) return null;
 
-    const type = formProps.fieldConfig?.type || formProps.type;
+  const InputMapping = useContext(InputMappingContext);
 
-    const Element = InputMapping.get(type);
+  const type = formProps.fieldType;
 
-    if (!Element) return null;
+  const Element = InputMapping.get(type);
 
-    return createElement(Element, formProps);
+  if (!Element) return null;
+
+  return createElement(Element, formProps);
 };
