@@ -27,11 +27,13 @@
         <div id="app"></div>
         <script>
             window.$docsify = {
-                name: '@rocket-kit/edge',
+                name: '@form-instant/react-input-mapping',
                 repo: 'https://github.com/leomerida15/form-instant-react-mapping',
                 loadSidebar: true,
                 logo: './_media/logo.svg',
-                coverpage: './coverage/_coverpage.md',
+                coverpage: {
+                    '/': '_coverpage.md'
+                },
                 tabs: {
                     persist: true, // default
                     sync: true, // default

@@ -4,6 +4,86 @@
 
 Este proyecto proporciona un sistema de mapeo de componentes de entrada (inputs) para React con tipado TypeScript completo. Permite crear formularios dinámicos con componentes personalizados y tipado seguro.
 
+## 📚 Documentación
+
+### Docsify Setup
+
+Este proyecto utiliza **Docsify** para la documentación, que está completamente alojada en el directorio `docs/`. La documentación incluye:
+
+#### Estructura de Documentación
+
+```
+docs/
+├── README.md              # Página principal de documentación
+├── _sidebar.md            # Navegación lateral
+├── index.html             # Configuración de Docsify
+├── _media/                # Recursos multimedia (CSS, JS, imágenes)
+├── cli/                   # Documentación de CLI
+├── coverage/              # Páginas de cobertura
+└── sections/              # Secciones adicionales de documentación
+```
+
+#### Características de la Documentación
+
+- **Tema**: Simple theme con personalización
+- **Plugins**: Tabs, copy-code, syntax highlighting (TypeScript, Bash)
+- **Navegación**: Sidebar colapsable con 3 niveles de profundidad
+- **Responsive**: Diseño adaptativo para móviles
+- **SEO**: Meta tags optimizados
+- **Branding**: Logo y footer personalizados de LatamEarth C.A.
+
+#### Configuración de Docsify
+
+```javascript
+window.$docsify = {
+    name: '@rocket-kit/edge',
+    repo: 'https://github.com/leomerida15/form-instant-react-mapping',
+    loadSidebar: true,
+    logo: './_media/logo.svg',
+    coverpage: './coverage/_coverpage.md',
+    tabs: {
+        persist: true,
+        sync: true,
+        theme: 'classic',
+        tabComments: true,
+        tabHeadings: true,
+    },
+    themeColor: '#507C5C',
+    sidebarDisplayLevel: 3,
+    footer: {
+        copy: '<span>LatamEarth C.A. &copy; 2024</span> | ',
+        auth: 'by Dimas Merida',
+        // ... configuración adicional
+    },
+};
+```
+
+#### Secciones de Documentación
+
+1. **Install**: Instrucciones de instalación para npm y bun
+2. **Example**: Ejemplos de uso con React
+3. **Special inputs**: Componentes especiales como `useFormInstantField`
+4. **Reactive schemas**: Esquemas reactivos y configuración de campos
+
+#### Acceso a la Documentación
+
+- **Local**: Ejecutar `docsify serve docs` para desarrollo local
+- **Online**: Disponible en GitHub Pages o servidor de documentación
+- **URL**: https://leomerida15.github.io/form-instant-react-mapping
+
+#### Desarrollo de Documentación
+
+```bash
+# Instalar Docsify globalmente
+npm install -g docsify-cli
+
+# Servir documentación localmente
+docsify serve docs
+
+# Editar documentación
+# Los archivos Markdown en docs/ se actualizan automáticamente
+```
+
 ## 🏗️ Arquitectura Principal
 
 ### Core Components
