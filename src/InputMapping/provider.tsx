@@ -14,10 +14,13 @@ export const createFormInstantContainer = <Ob extends Record<any, any>>(
     inputMapping: InputMapping<Ob>,
 ) => {
     const FormInstantInputsProvider: FCC = (props) =>
-        createElement(InputMappingContext.Provider, {
-            value: inputMapping,
-            children: props.children,
-        });
+        createElement(
+            InputMappingContext.Provider,
+            {
+                value: inputMapping,
+            },
+            props.children,
+        );
 
     const useInputMapping = () => useContext(InputMappingContext);
 
