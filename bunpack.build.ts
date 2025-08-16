@@ -1,6 +1,5 @@
 import Bun from 'bun';
 import fs from 'node:fs';
-import { buildDocs } from './docs.build.ts';
 
 const timetaken = 'complete build';
 
@@ -8,14 +7,6 @@ const timetaken = 'complete build';
 console.time(timetaken);
 
 // Build documentation first
-console.log('📚 Building documentation...');
-try {
-    buildDocs();
-    console.log('✅ Documentation built successfully');
-} catch (error) {
-    console.error('❌ Documentation build failed:', error);
-    process.exit(1);
-}
 
 // Build the main bundle
 Bun.build({
