@@ -28,16 +28,14 @@
     "scripts": {
         "dev": "bun run bunpack.watch.ts",
         "build": "bun run bunpack.build.ts",
+        "type:check": "bun x tsc --noEmit",
         "build:types": "bun x tsc --project tsconfig.build.json",
-        "lint": "eslint src",
-        "lint:fix": "eslint src --fix",
+        "lint": "bun -b eslint --config ../../eslint.config.mjs src --ext .ts,.tsx",
+        "lint:fix": "bun -b eslint --config ../../eslint.config.mjs src --ext .ts,.tsx --fix",
         "start": "bun run bunpack.watch.ts",
         "watch": "bun run bunpack.watch.ts --build",
-        "test": "jest --passWithNoTests",
         "docs": "bun run docs-serve.ts",
-        "docs:dev": "bun run docs.watch.ts",
-        "Up": "npm publish --access public",
-        "Up:rc": "npm publish --access public --tag rc"
+        "docs:dev": "bun run docs.watch.ts"
     },
     "dependencies": {
         "i": "^0.3.7"
@@ -46,8 +44,7 @@
         "react": "^19.2.4"
     },
     "devDependencies": {
-        "@types/react": "^19.2.10",
-        "docsify": "^4.13.1"
+        "@types/react": "^19.2.10"
     },
     "engines": {
         "node": ">=22",

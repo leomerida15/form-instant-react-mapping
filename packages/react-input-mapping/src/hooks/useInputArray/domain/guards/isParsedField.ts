@@ -1,4 +1,4 @@
-import type { FieldMetadata, ParsedField } from '../../../../InputMapping';
+import type { ParsedField } from '../../../../InputMapping';
 
 /**
  * Type guard to check if a value is a ParsedField

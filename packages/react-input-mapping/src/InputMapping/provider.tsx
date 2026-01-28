@@ -2,7 +2,7 @@ import type { Context, FC, ReactNode } from 'react';
 import { createElement, memo, use } from 'react';
 import { InputMapping } from './class';
 import { InputMappingContext } from './context';
-import type { FieldMetadata, ObBase, ParsedField } from './types';
+import type { FieldMetadata, ObBase } from './types';
 import {
 	createInputMappingGranularHook,
 	InputMappingStore,
