@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "name": "form-instant",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "bun run --filter '*' build",
+    "test": "bun run --filter '*' test",
+    "lint": "bun run --filter '*' lint",
+    "lint:fix": "bun run --filter '*' lint:fix",
+    "format": "bun -b prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\""
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.9.2"
+  },
+  "engines": {
+    "node": ">=18",
+    "bun": ">=1.0.0"
+  }
+}

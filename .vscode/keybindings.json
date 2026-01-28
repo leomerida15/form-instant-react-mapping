@@ -1,0 +1,17 @@
+[
+	{
+		"key": "ctrl+shift+n",
+		"command": "workbench.action.files.newUntitledFile",
+		"when": "!terminalFocus"
+	},
+	{
+		"key": "ctrl+n",
+		"command": "workbench.action.files.newUntitledFile",
+		"when": "!terminalFocus"
+	},
+	{
+		"key": "ctrl+alt+n",
+		"command": "workbench.action.files.newFile",
+		"when": "!terminalFocus"
+	}
+]
