@@ -1,0 +1,39 @@
+name: Deploy @form-instant/react-input-mapping
+
+on:
+    push:
+        branches: [mapping/main]
+
+jobs:
+    deploy:
+        name: Lint, test, build & publish
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: ❇️ Checkout repo
+              uses: actions/checkout@v4
+
+            - name: Set up Bun
+              uses: oven-sh/setup-bun@v1
+              with:
+                  bun-version: latest
+
+            - name: 📥 Install dependencies with Bun (with cache)
+              run: bun install
+
+            - name: 💅 Lint react-input-mapping
+              run: bun run --filter '@form-instant/react-input-mapping' lint
+
+            - name: 🧪 Test react-input-mapping
+              run: bun run --filter '@form-instant/react-input-mapping' test
+
+            - name: 🛠️ Build react-input-mapping
+              run: bun run --filter '@form-instant/react-input-mapping' build
+
+            - name: 🚀 Publish @form-instant/react-input-mapping to npm
+              uses: JS-DevTools/npm-publish@v1
+              with:
+                  token: ${{ secrets.NPM_TOKEN }}
+                  package-dir: packages/react-input-mapping
+                  access: public
