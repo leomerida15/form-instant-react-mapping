@@ -28,12 +28,14 @@
         "url": "git+https://github.com/leomerida15/form-instant-react-resolver-zod.git"
     },
     "scripts": {
-        "analyze": "size-limit --why",
+        "start": "bun run bunpack.watch.ts",
+        "dev": "bun run bunpack.watch.ts",
         "build": "bun run bunpack.build.ts",
-        "type:check": "bunx tsc --project tsconfig.declaration.json",
-        "dev": "bun --watch ./src/index.ts",
-        "lint": "eslint src --ext .ts,.tsx",
-        "lint:fix": "eslint src --ext .ts,.tsx --fix",
+        "build:types": "bun x tsc --project tsconfig.build.json",
+        "type:check": "bun x tsc --noEmit",
+        "lint": "eslint src",
+        "lint:fix": "eslint src --fix",
+        "watch": "bun run bunpack.watch.ts --build",
         "test": "bun test"
     },
     "dependencies": {},
@@ -44,7 +46,8 @@
     "peerDependencies": {
         "react": "^19.2.4",
         "react-dom": "^19.2.4",
-        "@form-instant/react-input-mapping": "workspace:*"
+        "@form-instant/react-input-mapping": "workspace:*",
+        "typescript": "^5.9.3"
     },
     "engines": {
         "node": ">=18",

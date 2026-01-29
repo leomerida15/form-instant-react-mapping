@@ -1,8 +1,8 @@
 import { createContext, useContext } from 'react';
-import { zodResolverProps } from '../types';
+import type { zodResolverProps } from '../types';
 import { parseSchema } from '../utils/schemaParser';
-import { NestedKeys } from './FormInstantElement';
-import { FieldMetadata } from '@form-instant/react-input-mapping';
+import type { NestedKeys } from './FormInstantElement';
+import type { FieldMetadata } from '@form-instant/react-input-mapping';
 
 interface ZodResolverContextType {
 	fields: Record<string, FieldMetadata>;

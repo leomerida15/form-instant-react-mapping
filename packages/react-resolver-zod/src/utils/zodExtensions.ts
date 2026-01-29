@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { FieldConfig } from '../types';
+import type { FieldConfig } from '../types';
 
 // Extend ZodType interface to include fieldConfig method
 declare module 'zod' {

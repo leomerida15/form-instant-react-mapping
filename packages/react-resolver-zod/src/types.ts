@@ -1,5 +1,5 @@
-import { FieldMetadata } from '@form-instant/react-input-mapping';
-import { ReactNode } from 'react';
+import type { FieldMetadata } from '@form-instant/react-input-mapping';
+import type { ReactNode } from 'react';
 
 // Core schema types - compatible with Zod v4
 export type ZodSchema = any;
