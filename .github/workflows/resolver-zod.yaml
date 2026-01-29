@@ -19,6 +19,9 @@ jobs:
               with:
                   bun-version: latest
 
+            - name: 📥 Install dependencies with Bun (with cache)
+              run: bun install
+
             - name: 💅 Lint react-input-mapping
               run: bun run --filter '@form-instant/react-input-mapping' lint
 
@@ -27,10 +30,6 @@ jobs:
 
             - name: 🛠️ Build react-input-mapping
               run: bun run --filter '@form-instant/react-input-mapping' build
-
-
-            - name: 📥 Install dependencies with Bun (with cache)
-              run: bun install
 
             - name: 💅 Lint react-resolver-zod
               run: bun run --filter '@form-instant/react-resolver-zod' lint
