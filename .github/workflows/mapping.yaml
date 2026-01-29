@@ -25,8 +25,8 @@ jobs:
             - name: 💅 Lint react-input-mapping
               run: bun run --filter '@form-instant/react-input-mapping' lint
 
-            - name: 🧪 Test react-input-mapping
-              run: bun run --filter '@form-instant/react-input-mapping' type:check
+            - name: 🔍 Type-check react-input-mapping
+              run: bun run --filter './packages/react-input-mapping' type:check
 
             - name: 🛠️ Build react-input-mapping
               run: bun run --filter '@form-instant/react-input-mapping' build
