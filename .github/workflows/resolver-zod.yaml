@@ -1,0 +1,39 @@
+name: Deploy @form-instant/react-resolver-zod
+
+on:
+    push:
+        branches: [resolver-zod/main]
+
+jobs:
+    deploy:
+        name: Lint, test, build & publish
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: ❇️ Checkout repo
+              uses: actions/checkout@v4
+
+            - name: Set up Bun
+              uses: oven-sh/setup-bun@v1
+              with:
+                  bun-version: latest
+
+            - name: 📥 Install dependencies with Bun (with cache)
+              run: bun install
+
+            - name: 💅 Lint react-resolver-zod
+              run: bun run --filter '@form-instant/react-resolver-zod' lint
+
+            - name: 🔍 Type-check react-resolver-zod
+              run: bun run --filter '@form-instant/react-resolver-zod' type:check
+
+            - name: 🛠️ Build react-resolver-zod
+              run: bun run --filter '@form-instant/react-resolver-zod' build
+
+            - name: 🚀 Publish @form-instant/react-resolver-zod to npm
+              uses: JS-DevTools/npm-publish@v1
+              with:
+                  token: ${{ secrets.NPM_TOKEN }}
+                  package: packages/react-resolver-zod/package.json
+                  access: public
