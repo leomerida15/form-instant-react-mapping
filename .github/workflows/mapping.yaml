@@ -36,4 +36,5 @@ jobs:
               with:
                   token: ${{ secrets.NPM_TOKEN }}
                   package-dir: packages/react-input-mapping
+                  package: packages/react-input-mapping/package.json
                   access: public
