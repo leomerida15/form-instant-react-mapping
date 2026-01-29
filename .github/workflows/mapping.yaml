@@ -35,6 +35,5 @@ jobs:
               uses: JS-DevTools/npm-publish@v1
               with:
                   token: ${{ secrets.NPM_TOKEN }}
-                  package-dir: packages/react-input-mapping
                   package: packages/react-input-mapping/package.json
                   access: public
