@@ -51,6 +51,12 @@
             "name": "Attach Bun",
             "url": "ws://localhost:6499/",
             "stopOnEntry": false
+        },
+        {
+          "command": "bun run --filter 'apps/docs' dev",
+          "name": "Development server",
+          "request": "launch",
+          "type": "node-terminal"
         }
     ]
 }
