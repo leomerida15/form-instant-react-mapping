@@ -8,7 +8,7 @@ import { InputMappingStore, type InputMapping } from "@pkg/react-input-mapping";
  * @param store - The store instance to validate.
  * @throws {Error} If the store is not an instance of InputMappingStore.
  */
-export function validateStoreInstance<Ob extends Record<string, any>>(
+export function validateStoreInstance<Ob extends Record<string, unknown>>(
 	store: InputMapping<Ob>,
 ): asserts store is InputMappingStore<Ob> {
 	if (!(store instanceof InputMappingStore)) {

@@ -1,12 +1,14 @@
-// Importar los plugins
+import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 
-export default tseslint.defineConfig(
-	// Configuración para los plugins
+export default [
+	js.configs.recommended,
+	...tseslint.configs.recommended,
 	{
 		rules: {
 			// Desactivar regla de curly
 			curly: 'off',
+			'@typescript-eslint/no-explicit-any': 'off',
 		},
 	},
 	{ ignores: ['**/*.{mjs,cjs,js,d.ts,d.mts}'] },
@@ -15,8 +17,7 @@ export default tseslint.defineConfig(
 		rules: {
 			'no-console': 'off',
 			'object-curly-spacing': 'off',
-			// Desactivar reglas específicas para stories
-			'@next/next/no-html-link-for-pages': 'off',
+			'@typescript-eslint/no-explicit-any': 'off',
 		},
 	},
-);
+];
