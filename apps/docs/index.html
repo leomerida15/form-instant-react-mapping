@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>@form-instant</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta
+			name="Form Instant Documentation"
+			content="Form Instant Documentation, builder by generate form with react.js"
+		/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css" />
+		<style>
+			:root {
+				--dark-base-background: #222;
+				--dark-base-color: #bbc0c4;
+				--dark-theme-color: var(--theme-color, #42b983);
+				--dark-code-color: var(--dark-color);
+				--dark-heading-color: var(--dark-theme-color);
+				--dark-cover-background: #000000a8;
+				--dark-code-background: #303030;
+				--dark-tip-background: #2c0000;
+				--dark-warn-background: #005842;
+				--dark-icon-size: 25px;
+				--dark-icon-transition: 0.1s ease-in-out 0.1s;
+				--dark-moon-color: #000000;
+				--dark-sun-color: #ffffff;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app"></div>
+		<script>
+			window.$docsify = {
+				name: '@form-instant',
+				loadSidebar: true,
+				subMaxLevel: 0,
+				auto2top: true,
+				autoHeader: false,
+				search: {
+					maxAge: 86400000,
+					paths: 'auto',
+					placeholder: 'Search',
+					noData: 'No Results!',
+					depth: 6,
+				},
+				plugins: [
+					function (hook, vm) {
+						hook.beforeEach(function (html) {
+							return html;
+						});
+					},
+					// Scroll main content to section when #/?id=section-id
+					function (hook, vm) {
+						function scrollToSectionId() {
+							const hash = window.location.hash || '';
+							const qs =
+								hash.indexOf('?') >= 0 ? hash.slice(hash.indexOf('?') + 1) : '';
+							const id = new URLSearchParams(qs).get('id');
+							if (id) {
+								const el = document.getElementById(id);
+								if (el) {
+									el.scrollIntoView({ block: 'start', behavior: 'smooth' });
+								}
+							}
+						}
+						hook.doneEach(scrollToSectionId);
+					},
+					// Scroll sidebar so the active link is visible
+					function (hook, vm) {
+						function scrollSidebarToActive() {
+							const sidebar = document.querySelector('.sidebar');
+							const active = sidebar?.querySelector('a.active');
+							if (sidebar && active) {
+								active.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+							}
+						}
+						hook.doneEach(scrollSidebarToActive);
+					},
+					// Set sidebar link as active when URL has matching ?id=
+					function (hook, vm) {
+						function setActiveByQueryId() {
+							const hash = window.location.hash || '';
+							const qs =
+								hash.indexOf('?') >= 0 ? hash.slice(hash.indexOf('?') + 1) : '';
+							const id = new URLSearchParams(qs).get('id');
+							const sidebar = document.querySelector('.sidebar');
+							if (!sidebar || !id) return;
+							sidebar.querySelectorAll('a[href*="id="]').forEach(function (a) {
+								const href = a.getAttribute('href') || '';
+								const linkId = new URLSearchParams(
+									href.indexOf('?') >= 0 ? href.slice(href.indexOf('?') + 1) : '',
+								).get('id');
+								a.classList.toggle('active', linkId === id);
+							});
+						}
+						hook.doneEach(setActiveByQueryId);
+					},
+				],
+			};
+		</script>
+		<script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
+		<script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/LIGMATV/docsify-dark-switcher@latest/docsify-dark-switcher.js"></script>
+	</body>
+</html>

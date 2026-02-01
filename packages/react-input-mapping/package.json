@@ -1,44 +1,28 @@
 {
-    "type": "module",
-    "license": "MIT",
-    "private": false,
-    "version": "2.0.4",
-    "main": "dist/index.js",
-    "module": "dist/index.js",
-    "types": "dist/src/index.d.ts",
     "name": "@form-instant/react-input-mapping",
-    "exports": {
-        ".": {
-            "default": "./dist/index.js",
-            "types": "./dist/src/index.d.ts"
-        }
-    },
+    "version": "2.0.4",
     "author": {
         "name": "leomerida15",
         "email": "dimasmerida15@gmail.com",
         "url": "https://github.com/leomerida15"
     },
-    "scripts": {
-        "start": "bun run bunpack.watch.ts",
-        "dev": "bun run bunpack.watch.ts",
-        "build": "bun run bunpack.build.ts",
-        "build:types": "bun x tsc --project tsconfig.build.json",
-        "type:check": "bun x tsc --noEmit",
-        "lint": "eslint src",
-        "lint:fix": "eslint src --fix",
-        "watch": "bun run bunpack.watch.ts --build",
-        "test": "bun test"
-    },
-    "homepage": "https://leomerida15.github.io/form-instant-react-mapping",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/leomerida15/form-instant-react-mapping.git"
     },
+    "main": "dist/index.js",
+    "module": "dist/index.js",
     "devDependencies": {
         "@types/react": "^19.2.10"
     },
     "peerDependencies": {
         "react": "^19.2.4"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/src/index.d.ts",
+            "default": "./dist/index.js"
+        }
     },
     "engines": {
         "node": ">=22",
@@ -47,10 +31,27 @@
     "files": [
         "dist"
     ],
+    "homepage": "https://leomerida15.github.io/form-instant-react-mapping",
     "keywords": [
         "@form-instant",
         "react",
         "mapping",
         "form"
-    ]
+    ],
+    "license": "MIT",
+    "private": false,
+    "scripts": {
+        "dev": "bun run bunpack.watch.ts",
+        "build": "bun run bunpack.build.ts",
+        "build:types": "bun x tsc --project tsconfig.build.json",
+        "lint": "eslint src",
+        "lint:fix": "eslint src --fix",
+        "start": "bun run bunpack.watch.ts",
+        "watch": "bun run bunpack.watch.ts --build",
+        "test": "jest --passWithNoTests",
+        "docs": "bun run docs-serve.ts",
+        "docs:dev": "bun run docs.watch.ts"
+    },
+    "type": "module",
+    "types": "dist/src/index.d.ts"
 }

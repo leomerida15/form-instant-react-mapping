@@ -1,49 +1,27 @@
-# Starlight Starter Kit: Basics
+# @form-instant/react-input-mapping
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+<span id="form-instant-react-input-mapping"></span>
 
-```
-bun create astro@latest -- --template starlight
-```
+Library to map field types (Zod/schema) to React form components. Integrates with **@form-instant/react-resolver-zod** to generate forms from a Zod schema without writing each input by hand.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+---
 
-## 🚀 Project Structure
+<span id="quick-start"></span>
 
-Inside of your Astro + Starlight project, you'll see the following folders and files:
+[Quick start](views/quick_start.md ":include")
 
-```
-.
-├── public/
-├── src/
-│   ├── assets/
-│   ├── content/
-│   │   └── docs/
-│   └── content.config.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
-```
+<span id="implementation"></span>
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+[Implementation](views/implementation.md ":include")
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+<span id="form-types"></span>
 
-Static assets, like favicons, can be placed in the `public/` directory.
+[Form types](views/form_types.md ":include")
 
-## 🧞 Commands
+<span id="full-example"></span>
 
-All commands are run from the root of the project, from a terminal:
+[Full example: React Hook Form + Shadcn UI + Zod](views/full_example.md ":include")
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
+<span id="api-reference"></span>
 
-## 👀 Want to learn more?
-
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+[API reference](views/api_reference.md ":include")

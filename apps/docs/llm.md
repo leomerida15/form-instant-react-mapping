@@ -1,8 +1,14 @@
+<!-- Documentación empaquetada para consumo por IA. Generado desde README.md + views/*.md -->
+
 # @form-instant/react-input-mapping
+
+<span id="form-instant-react-input-mapping"></span>
 
 Library to map field types (Zod/schema) to React form components. Integrates with **@form-instant/react-resolver-zod** to generate forms from a Zod schema without writing each input by hand.
 
 ---
+
+<span id="quick-start"></span>
 
 ## Quick start guide
 
@@ -11,37 +17,40 @@ Library to map field types (Zod/schema) to React form components. Integrates wit
 Install in this order (or all at once in a monorepo):
 
 1. **React** (peer)
+
    ```bash
    bun add react react-dom
    # or: npm i react react-dom
    ```
-
 2. **Zod** (for defining schemas)
+
    ```bash
    bun add zod
    # or: npm i zod
    ```
-
 3. **@form-instant/react-input-mapping** (field → component mapping)
+
    ```bash
    bun add @form-instant/react-input-mapping
    # or: npm i @form-instant/react-input-mapping
    ```
-
 4. **@form-instant/react-resolver-zod** (resolves Zod schema and provides `FormInstantProvider` / `FormInstantElement`)
+
    ```bash
    bun add @form-instant/react-resolver-zod
    # or: npm i @form-instant/react-resolver-zod
    ```
+
    This package has as peers: `react`, `@form-instant/react-input-mapping`, and `zod`. Without the mapping installed first, the resolver cannot resolve fields.
 
 **Summary:** `react` → `zod` → `@form-instant/react-input-mapping` → `@form-instant/react-resolver-zod`.
 
----
 
-### 2. Implementation in your project
+<span id="implementation"></span>
 
-#### 2.1 Creating the Mapping
+## Implementation in your project
+
+### 2.1 Creating the Mapping
 
 The **Mapping** is a dictionary that associates each `fieldType` (string) with a React component. You can use `InputMapping` or **`InputMappingStore`** (recommended: better support for granular re-renders).
 
@@ -100,7 +109,7 @@ export const { FormInstantInputsProvider, useInputMapping } =
 
 - **Select:** the component receives `options?: [string, string][]`; you can populate them from an API (data fetch) and keep using the same mapping.
 
-#### 2.2 Setting up providers
+### 2.2 Setting up providers
 
 - `createFormInstantContainer<MyInputs>(inputMapping)` returns:
   - **`FormInstantInputsProvider`**: provider that should wrap your app (or at least the area where forms are used).
@@ -120,7 +129,7 @@ function App() {
 }
 ```
 
-#### 2.3 Zod schema and `fieldConfig`
+### 2.3 Zod schema and `fieldConfig`
 
 - Define the schema with **Zod**. With **@form-instant/react-resolver-zod** the package already extends Zod with `.fieldConfig()` on the types used by the parser.
 - **`.fieldConfig(...)`** is used to specify `fieldType` and extra props (placeholder, label, min, max, etc.) that reach the component via `fieldConfig`.
@@ -134,7 +143,7 @@ import { z } from 'zod';
 
 const formSchema = z.object({
   name: z.string().min(2).fieldConfig({ fieldType: 'text', placeholder: 'Name', label: 'Name' }),
-  email: z.string().email().fieldConfig({ fieldType: 'email', placeholder: 'email@example.com' }),
+  email: z.email().fieldConfig({ fieldType: 'email', placeholder: 'email@example.com' }),
   age: z.number().min(18).max(100).fieldConfig({ fieldType: 'number', min: 18, max: 100 }),
   bio: z.string().min(10).fieldConfig({ fieldType: 'textarea' }),
   role: z.enum(['admin', 'user']).fieldConfig({ fieldType: 'select' }),
@@ -145,7 +154,7 @@ export type FormSchemaType = z.infer<typeof formSchema>;
 
 - If you omit `fieldConfig`, the resolver infers `fieldType` from the Zod type (string → text, number → number, etc.).
 
-#### 2.4 Rendering forms
+### 2.4 Rendering forms
 
 - Wrap the form in **`FormInstantProvider`** with the schema.
 - Use **`FormInstantElement<FormSchemaType> name="..."`** for each **path** in the schema you want to render:
@@ -182,18 +191,19 @@ For **nested objects**, one `FormInstantElement` per object:
 </FormInstantProvider>
 ```
 
----
 
-### 3. Form types
+<span id="form-types"></span>
 
-#### 3.1 Static form
+## Form types
+
+### 3.1 Static form
 
 Flat schema, fixed fields. You only need `FormInstantProvider` plus several `FormInstantElement` (one per field or per object group).
 
 ```tsx
 const schema = z.object({
   name: z.string().min(2),
-  email: z.string().email(),
+  email: z.email(),
   age: z.number().min(18).max(100),
 });
 // ...
@@ -204,14 +214,14 @@ const schema = z.object({
 </FormInstantProvider>
 ```
 
-#### 3.2 Inputs with data fetch (select / autocomplete)
+### 3.2 Inputs with data fetch (select / autocomplete)
 
 - **Select:** in the schema use `z.enum([...])` or a type the parser turns into `options`; the mapping component receives `options` and can also receive data loaded from an API (store options in state and pass them via context or props to the component that renders the field).
 - **Autocomplete:** you can define your own `fieldType` (e.g. `autocomplete`), map it to a component that uses `useFields` and internally fetches and shows suggestions; the final value is still bound to the same `name`.
 
 The select mapping already uses `options?: [string, string][]`; populating `options` from an API is compatible with the same flow.
 
-#### 3.3 Dynamic form with `discriminatedUnion`
+### 3.3 Dynamic form with `discriminatedUnion`
 
 Schema that changes based on a discriminator (e.g. user type). Steps:
 
@@ -242,7 +252,7 @@ const { schema } = useSchema(() => formSchema, dependencies);
 </FormInstantProvider>
 ```
 
-#### 3.4 Array with dynamic input creation
+### 3.4 Array with dynamic input creation
 
 For **arrays of objects** (e.g. list of items or skills):
 
@@ -290,7 +300,7 @@ function ArrayFieldComponent({ name }: { name: 'items' }) {
 
 `fieldConfig?.min` / `fieldConfig?.max` can come from the schema (e.g. via `.fieldConfig({ min: 1, max: 10 })`) to disable buttons based on limits.
 
-#### 3.5 Nested object
+### 3.5 Nested object
 
 Schema with **`z.object({ group: z.object({ a: z.string(), b: z.number() }) })`**. No custom component needed: a single **`FormInstantElement<FormType> name="group"`** makes the resolver render all fields of `group` (the parser fills `field.schema` and `FormInstantElement` walks those children with `ElementMapping`).
 
@@ -314,7 +324,8 @@ const objectFormSchema = z.object({
 </FormInstantProvider>
 ```
 
----
+
+<span id="full-example"></span>
 
 ## Full example: React Hook Form + Shadcn UI + Zod
 
@@ -558,17 +569,19 @@ export default function App() {
 
 **Summary:** Use **Zod** for the schema, **zodResolver** in `useForm`, **FormProvider** (react-hook-form) around the form, and **FormInstantProvider** + **FormInstantElement** to render fields from the schema. In your mapping components, call **useFormContext()** and **register(name.history)** (and optionally **formState.errors**) so react-hook-form controls and validates the inputs.
 
----
+
+<span id="api-reference"></span>
 
 ## API reference (minimal)
 
-| Concept | Package | Description |
-|---------|---------|-------------|
-| `InputMapping` / `InputMappingStore` | react-input-mapping | Maps fieldType → React component. |
-| `createFormInstantContainer` | react-input-mapping | Creates `FormInstantInputsProvider` and `useInputMapping`. |
-| `ParsedField`, `FieldConfig` | react-input-mapping | Props types for mapping components. |
-| `ElementMapping` | react-input-mapping | Renders a single field from `formProps` (fieldType, name, etc.). |
-| `useInputArray` | react-input-mapping | For arrays: `inputs`, `append`, `remove`, `fieldConfig`. |
-| `FormInstantProvider`, `FormInstantElement`, `useFields` | react-resolver-zod | Schema provider, element per path, hook for a field. |
-| `useSchema` | react-resolver-zod | Reactive schema (e.g. for `discriminatedUnion`) and initial values. |
-| `.fieldConfig(...)` | react-resolver-zod (extends Zod) | Associate `fieldType` and props with a schema field. |
+| Concept                                                        | Package                          | Description                                                           |
+| -------------------------------------------------------------- | -------------------------------- | --------------------------------------------------------------------- |
+| `InputMapping` / `InputMappingStore`                       | react-input-mapping              | Maps fieldType → React component.                                    |
+| `createFormInstantContainer`                                 | react-input-mapping              | Creates `FormInstantInputsProvider` and `useInputMapping`.        |
+| `ParsedField`, `FieldConfig`                               | react-input-mapping              | Props types for mapping components.                                   |
+| `ElementMapping`                                             | react-input-mapping              | Renders a single field from `formProps` (fieldType, name, etc.).    |
+| `useInputArray`                                              | react-input-mapping              | For arrays:`inputs`, `append`, `remove`, `fieldConfig`.       |
+| `FormInstantProvider`, `FormInstantElement`, `useFields` | react-resolver-zod               | Schema provider, element per path, hook for a field.                  |
+| `useSchema`                                                  | react-resolver-zod               | Reactive schema (e.g. for `discriminatedUnion`) and initial values. |
+| `.fieldConfig(...)`                                          | react-resolver-zod (extends Zod) | Associate `fieldType` and props with a schema field.                |
+
