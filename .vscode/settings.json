@@ -112,6 +112,10 @@
 	"material-icon-theme.hidesExplorerArrows": false,
 	"rest-client.excludeHostsForProxy": ["localhost", "127.0.0.1"],
 
+	// Navegador: usar Opera para enlaces y extensiones
+	"workbench.externalBrowser": "opera",
+	"liveServer.settings.CustomBrowser": "opera",
+
     "aiFeatures": {
     "enabled": true,
     "filePatterns": {
