@@ -1,15 +1,5 @@
 <!-- Documentación empaquetada para consumo por IA. Generado desde README.md + views/*.md -->
 
-# @form-instant/react-input-mapping
-
-<span id="form-instant-react-input-mapping"></span>
-
-Library to map field types (Zod/schema) to React form components. Integrates with **@form-instant/react-resolver-zod** to generate forms from a Zod schema without writing each input by hand.
-
----
-
-<span id="quick-start"></span>
-
 ## Quick start guide
 
 ### 1. Installation and dependency order
@@ -46,7 +36,7 @@ Install in this order (or all at once in a monorepo):
 **Summary:** `react` → `zod` → `@form-instant/react-input-mapping` → `@form-instant/react-resolver-zod`.
 
 
-<span id="implementation"></span>
+`<span id="implementation">`
 
 ## Implementation in your project
 
@@ -192,7 +182,7 @@ For **nested objects**, one `FormInstantElement` per object:
 ```
 
 
-<span id="form-types"></span>
+`<span id="form-types">`
 
 ## Form types
 
@@ -325,7 +315,7 @@ const objectFormSchema = z.object({
 ```
 
 
-<span id="full-example"></span>
+`<span id="full-example">`
 
 ## Full example: React Hook Form + Shadcn UI + Zod
 
@@ -570,7 +560,7 @@ export default function App() {
 **Summary:** Use **Zod** for the schema, **zodResolver** in `useForm`, **FormProvider** (react-hook-form) around the form, and **FormInstantProvider** + **FormInstantElement** to render fields from the schema. In your mapping components, call **useFormContext()** and **register(name.history)** (and optionally **formState.errors**) so react-hook-form controls and validates the inputs.
 
 
-<span id="api-reference"></span>
+`<span id="api-reference">`
 
 ## API reference (minimal)
 

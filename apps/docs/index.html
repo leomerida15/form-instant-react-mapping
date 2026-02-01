@@ -12,19 +12,55 @@
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css" />
 		<style>
 			:root {
-				--dark-base-background: #222;
+				/* Paleta azul */
+				--theme-color: #1976d2;
+				--cover-blue: #1565c0;
+				/* Configuración dark-mode (docsify-dark-switcher) */
+				--dark-base-background: #1a2332;
 				--dark-base-color: #bbc0c4;
-				--dark-theme-color: var(--theme-color, #42b983);
+				--dark-theme-color: #42a5f5;
 				--dark-code-color: var(--dark-color);
 				--dark-heading-color: var(--dark-theme-color);
-				--dark-cover-background: #000000a8;
-				--dark-code-background: #303030;
-				--dark-tip-background: #2c0000;
-				--dark-warn-background: #005842;
+				--dark-cover-background: var(--cover-blue);
+				--dark-code-background: #243447;
+				--dark-tip-background: #1a2d42;
+				--dark-warn-background: #0d3a5c;
 				--dark-icon-size: 25px;
 				--dark-icon-transition: 0.1s ease-in-out 0.1s;
 				--dark-moon-color: #000000;
 				--dark-sun-color: #ffffff;
+			}
+			/* Cover siempre con fondo azul fijo (light y dark mode) */
+			section.cover {
+				background: var(--cover-blue) !important;
+				background-image: none !important;
+			}
+			section.cover .cover-main h1,
+			section.cover .cover-main h1 a,
+			section.cover .cover-main h1 a span,
+			section.cover .cover-main blockquote,
+			section.cover .cover-main blockquote p {
+				color: #fff !important;
+			}
+			section.cover .cover-main > p:last-child a {
+				border-color: rgba(255, 255, 255, 0.8);
+				color: #fff;
+			}
+			section.cover .cover-main > p:last-child a:last-child {
+				background-color: rgba(255, 255, 255, 0.2);
+			}
+			section.cover blockquote > p > a {
+				border-bottom-color: rgba(255, 255, 255, 0.8);
+				color: #fff;
+			}
+			section.cover .mask {
+				background-color: var(--cover-blue) !important;
+				opacity: 1 !important;
+			}
+			.docsify-dark-mode section.cover,
+			.docsify-dark-mode section.cover .mask {
+				background: var(--cover-blue) !important;
+				background-color: var(--cover-blue) !important;
 			}
 		</style>
 	</head>
@@ -33,6 +69,15 @@
 		<script>
 			window.$docsify = {
 				name: '@form-instant',
+				repo: 'https://github.com/leomerida15/form-instant-react-mapping',
+				coverpage: './_cover.md',
+				tabs: {
+					persist: true,
+					sync: true,
+					theme: 'classic',
+					tabComments: true,
+					tabHeadings: true,
+				},
 				loadSidebar: true,
 				subMaxLevel: 0,
 				auto2top: true,
@@ -97,10 +142,17 @@
 						hook.doneEach(setActiveByQueryId);
 					},
 				],
+
+				// load from _footer.md
+				loadFooter: true,
+
+				// Or load from _footer.md
+				loadFooter: '_footer.md',
 			};
 		</script>
 		<script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
 		<script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/gh/LIGMATV/docsify-dark-switcher@latest/docsify-dark-switcher.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@alertbox/docsify-footer/dist/docsify-footer.min.js"></script>
 	</body>
 </html>

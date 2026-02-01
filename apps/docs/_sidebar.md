@@ -2,7 +2,7 @@
 
 - [@form-instant/react-input-mapping
   ](/?id=form-instant-react-input-mapping)
-- [llm](/llm.md)
+- [llm](/llm.txt)
 - [Quick start](/?id=quick-start)
 - [Implementation](/?id=implementation)
 - [Form types](/?id=form-types)
