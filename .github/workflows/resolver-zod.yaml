@@ -1,8 +1,8 @@
-name: Deploy @form-instant/react-input-mapping
+name: Deploy @form-instant/react-resolver-zod
 
 on:
     push:
-        branches: [mapping/main]
+        branches: [resolver-zod/main]
 
 jobs:
     deploy:
@@ -31,9 +31,18 @@ jobs:
             - name: 🛠️ Build react-input-mapping
               run: bun run --filter '@form-instant/react-input-mapping' build
 
-            - name: 🚀 Publish @form-instant/react-input-mapping to npm
+            - name: 💅 Lint react-resolver-zod
+              run: bun run --filter '@form-instant/react-resolver-zod' lint
+
+            - name: 🔍 Type-check react-resolver-zod
+              run: bun run --filter '@form-instant/react-resolver-zod' type:check
+
+            - name: 🛠️ Build react-resolver-zod
+              run: bun run --filter '@form-instant/react-resolver-zod' build
+
+            - name: 🚀 Publish @form-instant/react-resolver-zod to npm
               uses: JS-DevTools/npm-publish@v1
               with:
                   token: ${{ secrets.NPM_TOKEN }}
-                  package: packages/react-input-mapping/package.json
+                  package: packages/react-resolver-zod/package.json
                   access: public

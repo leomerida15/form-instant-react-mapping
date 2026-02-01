@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { FieldConfig, SchemaPath } from '../types';
-import { FieldMetadata } from '@form-instant/react-input-mapping';
+import type { FieldConfig, SchemaPath } from '../types';
+import type { FieldMetadata } from '@form-instant/react-input-mapping';
 
 // Schema type detection using the internal type property
 function getSchemaType(schema: z.ZodTypeAny): string {
@@ -130,7 +130,7 @@ export function parseSchema(schema: z.ZodTypeAny): { fields: Record<string, Fiel
                 );
             }
 
-            fields[currentPath].schema = parentStructure[fieldName];
+            fields[currentPath]!.schema = parentStructure[fieldName];
         }
 
         // Handle arrays
@@ -154,7 +154,7 @@ export function parseSchema(schema: z.ZodTypeAny): { fields: Record<string, Fiel
                 }
 
 
-                fields[currentPath].schema = [arrayStructure] as any;
+                fields[currentPath]!.schema = [arrayStructure] as any;
             }
         }
     }
