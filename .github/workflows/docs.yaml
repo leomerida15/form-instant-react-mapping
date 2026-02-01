@@ -5,7 +5,7 @@ name: Deploy docs (Docsify)
 
 on:
   push:
-    branches: [main]
+    branches: [docs]
     paths:
       - 'apps/docs/**'
       - '.github/workflows/docs.yaml'
