@@ -5,6 +5,13 @@ import { z } from 'zod';
 type Data = z.ZodObject<any, any> | z.ZodTypeAny | z.ZodDiscriminatedUnion<any, any>;
 type DP = Record<string, any>;
 
+type FieldHandlerContext = {
+    initialValues: Record<string, any>;
+    key: string;
+    fieldSchema: z.ZodTypeAny;
+    dp: DP;
+};
+
 /**
  * Generates initial values from schema and dependencies
  */
@@ -34,35 +41,11 @@ export const getInitialValues = <T extends Data>(schema: T, dp: DP = {}): z.infe
             }
 
             // Inferir tipo para campos requeridos sin default
-            const fieldConfig = {
-                ZodEmail() {
-                    initialValues[key] = '';
-                },
-                ZodString() {
-                    initialValues[key] = '';
-                },
-                ZodNumber() {
-                    initialValues[key] = 0;
-                },
-                ZodBoolean() {
-                    initialValues[key] = false;
-                },
-                ZodDate() {
-                    initialValues[key] = null;
-                },
-                ZodArray() {
-                    initialValues[key] = [];
-                },
-                ZodObject() {
-                    initialValues[key] = getInitialValues(fieldSchema, dp);
-                },
-            };
-
             const fieldType = fieldSchema.constructor.name;
-            const fieldHandler = fieldConfig[fieldType as keyof typeof fieldConfig];
+            const fieldHandler = FIELD_HANDLERS[fieldType];
 
             if (fieldHandler) {
-                fieldHandler();
+                fieldHandler({ initialValues, key, fieldSchema, dp });
                 continue;
             }
 
@@ -80,6 +63,30 @@ export const getInitialValues = <T extends Data>(schema: T, dp: DP = {}): z.infe
 
         return {} as z.infer<T>;
     }
+};
+
+const FIELD_HANDLERS: Record<string, (ctx: FieldHandlerContext) => void> = {
+    ZodEmail(ctx) {
+        ctx.initialValues[ctx.key] = '';
+    },
+    ZodString(ctx) {
+        ctx.initialValues[ctx.key] = '';
+    },
+    ZodNumber(ctx) {
+        ctx.initialValues[ctx.key] = 0;
+    },
+    ZodBoolean(ctx) {
+        ctx.initialValues[ctx.key] = false;
+    },
+    ZodDate(ctx) {
+        ctx.initialValues[ctx.key] = null;
+    },
+    ZodArray(ctx) {
+        ctx.initialValues[ctx.key] = [];
+    },
+    ZodObject(ctx) {
+        ctx.initialValues[ctx.key] = getInitialValues(ctx.fieldSchema, ctx.dp);
+    },
 };
 
 /**

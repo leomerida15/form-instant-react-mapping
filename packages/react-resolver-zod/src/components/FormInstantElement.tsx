@@ -1,4 +1,4 @@
-import { Fragment, useId } from 'react';
+import { Fragment, useId, useMemo } from 'react';
 import { ElementMapping } from '@form-instant/react-input-mapping';
 import { useFields } from './FormInstantProvider';
 
@@ -19,9 +19,11 @@ export const FormInstantElement = <S extends Record<string, any>>({ name }: Elem
 
 	if (!['object'].includes(field.fieldType)) return <ElementMapping formProps={field as any} />;
 
+	const childProps = useMemo(() => Object.values(field.schema || {}), [field.schema]);
+
 	return (
 		<>
-			{Object.values(field.schema || {}).map((props: any) => {
+			{childProps.map((props: any) => {
 				return (
 					<Fragment key={`${id}-${props.name?.history || ''}`}>
 						<ElementMapping formProps={props} />

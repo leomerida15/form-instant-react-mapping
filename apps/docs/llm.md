@@ -146,7 +146,7 @@ export type FormSchemaType = z.infer<typeof formSchema>;
 
 ### 2.4 Rendering forms
 
-- Wrap the form in **`FormInstantProvider`** with the schema.
+- Wrap the form in **`FormInstantProvider`** with the schema. Pass a stable schema reference (e.g. defined outside the component or memoized with `useMemo`) so the provider does not re-parse the schema on every parent re-render.
 - Use **`FormInstantElement<FormSchemaType> name="..."`** for each **path** in the schema you want to render:
   - **Primitive field:** `name="name"` → a single input.
   - **Nested object:** `name="personalData"` → all fields of `personalData` are rendered (the provider parses the schema and exposes `field.schema`; `FormInstantElement` iterates and uses `ElementMapping` for each child).
@@ -216,7 +216,7 @@ The select mapping already uses `options?: [string, string][]`; populating `opti
 Schema that changes based on a discriminator (e.g. user type). Steps:
 
 1. Define the schema with **`z.discriminatedUnion('status', [ z.object({ status: z.literal('ok'), ... }), z.object({ status: z.literal('not'), ... }) ])`**.
-2. Use **`useSchema`** from `@form-instant/react-resolver-zod`: it receives a callback that returns the schema and a dependencies object; when dependencies change, the schema (and visible fields) is recalculated.
+2. Use **`useSchema`** from `@form-instant/react-resolver-zod`: it receives a callback that returns the schema and a dependencies object; when the **reference** of the dependencies object changes, the schema and initial values are recalculated. Pass a stable dependencies object (e.g. from state or `useMemo`) to avoid unnecessary recalculations on parent re-renders.
 3. Keep **dependencies** in sync with the current discriminator value in the form (e.g. with `form.watch('data.status')` if you use react-hook-form, or your own state).
 4. The first field in the union is the discriminator; you can map that field to a select in your mapping (by `fieldType` or by the discriminator key) so the user can switch the variant.
 
@@ -572,6 +572,6 @@ export default function App() {
 | `ElementMapping`                                             | react-input-mapping              | Renders a single field from `formProps` (fieldType, name, etc.).    |
 | `useInputArray`                                              | react-input-mapping              | For arrays:`inputs`, `append`, `remove`, `fieldConfig`.       |
 | `FormInstantProvider`, `FormInstantElement`, `useFields` | react-resolver-zod               | Schema provider, element per path, hook for a field.                  |
-| `useSchema`                                                  | react-resolver-zod               | Reactive schema (e.g. for `discriminatedUnion`) and initial values. |
+| `useSchema`                                                  | react-resolver-zod               | Reactive schema (e.g. for `discriminatedUnion`) and initial values. Recalculates when the **reference** of the dependencies object changes; pass a stable object to avoid unnecessary recalculations. |
 | `.fieldConfig(...)`                                          | react-resolver-zod (extends Zod) | Associate `fieldType` and props with a schema field.                |
 
