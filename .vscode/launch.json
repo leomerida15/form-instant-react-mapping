@@ -51,6 +51,20 @@
             "name": "Attach Bun",
             "url": "ws://localhost:6499/",
             "stopOnEntry": false
+        },
+        {
+          "command": "bun run --filter 'apps/docs' dev",
+          "name": "Development server",
+          "request": "launch",
+          "type": "node-terminal"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Abrir docs en Opera",
+            "url": "http://localhost:3000",
+            "runtimeExecutable": "/usr/bin/opera",
+            "webRoot": "${workspaceFolder}/apps/docs"
         }
     ]
 }

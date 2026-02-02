@@ -13,6 +13,12 @@
         "typescript-eslint": "^8.54.0",
       },
     },
+    "apps/docs": {
+      "name": "@form-instant/docs",
+      "devDependencies": {
+        "docsify": "^4.13.1",
+      },
+    },
     "apps/example": {
       "name": "@form-instant/react-example",
       "version": "0.1.0",
@@ -90,6 +96,8 @@
     "@floating-ui/react-dom": ["@floating-ui/react-dom@2.1.7", "", { "dependencies": { "@floating-ui/dom": "^1.7.5" }, "peerDependencies": { "react": ">=16.8.0", "react-dom": ">=16.8.0" } }, "sha512-0tLRojf/1Go2JgEVm+3Frg9A3IW8bJgKgdO0BN5RkF//ufuz2joZM63Npau2ff3J6lUVYgDSNzNkR+aH3IVfjg=="],
 
     "@floating-ui/utils": ["@floating-ui/utils@0.2.10", "", {}, "sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ=="],
+
+    "@form-instant/docs": ["@form-instant/docs@workspace:apps/docs"],
 
     "@form-instant/react-example": ["@form-instant/react-example@workspace:apps/example"],
 
