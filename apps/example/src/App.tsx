@@ -13,13 +13,14 @@ export function App() {
 					<CardHeader className="text-center">
 						<CardTitle className="text-4xl font-bold">Form Instant Examples</CardTitle>
 						<CardDescription className="text-lg">
-							Ejemplos de uso de @form-instant/react-input-mapping y @form-instant/react-resolver-zod
+							Ejemplos de uso de @form-instant/react-input-mapping y
+							@form-instant/react-resolver-zod
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
 						<p className="text-center text-muted-foreground">
-							Explora los diferentes tipos de formularios: simples, objetos anidados y arrays dinámicos.
-							Todos con renderizado granular optimizado.
+							Explora los diferentes tipos de formularios: simples, objetos anidados y
+							arrays dinámicos. Todos con renderizado granular optimizado.
 						</p>
 					</CardContent>
 				</Card>

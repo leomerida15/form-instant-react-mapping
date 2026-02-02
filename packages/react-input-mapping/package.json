@@ -1,6 +1,6 @@
 {
     "name": "@form-instant/react-input-mapping",
-    "version": "2.0.4",
+    "version": "2.2.0",
     "author": {
         "name": "leomerida15",
         "email": "dimasmerida15@gmail.com",
@@ -44,7 +44,6 @@
         "dev": "bun run bunpack.watch.ts",
         "build": "bun run bunpack.build.ts",
         "build:types": "bun x tsc --project tsconfig.build.json",
-        "type:check": "bun x tsc --noEmit",
         "lint": "eslint src",
         "lint:fix": "eslint src --fix",
         "start": "bun run bunpack.watch.ts",

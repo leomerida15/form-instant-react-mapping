@@ -1,8 +1,8 @@
-import { createContext, useContext } from 'react';
-import { zodResolverProps } from '../types';
+import { createContext, useContext, useMemo } from 'react';
+import type { zodResolverProps } from '../types';
 import { parseSchema } from '../utils/schemaParser';
-import { NestedKeys } from './FormInstantElement';
-import { FieldMetadata } from '@form-instant/react-input-mapping';
+import type { NestedKeys } from './FormInstantElement';
+import type { FieldMetadata } from '@form-instant/react-input-mapping';
 
 interface ZodResolverContextType {
 	fields: Record<string, FieldMetadata>;
@@ -14,13 +14,10 @@ export const ZodResolverContext = createContext<ZodResolverContextType | null>(n
 export const FormInstantProvider: FCC<{
 	schema: zodResolverProps;
 }> = ({ children, schema }) => {
-	const { fields } = parseSchema(schema);
+	const fields = useMemo(() => parseSchema(schema).fields, [schema]);
+	const value = useMemo(() => ({ schema, fields }), [schema, fields]);
 
-	return (
-		<ZodResolverContext.Provider value={{ schema, fields }}>
-			{children}
-		</ZodResolverContext.Provider>
-	);
+	return <ZodResolverContext.Provider value={value}>{children}</ZodResolverContext.Provider>;
 };
 
 interface useFieldsProps<Sc extends Record<string, any>> {

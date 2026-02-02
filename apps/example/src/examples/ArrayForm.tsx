@@ -74,7 +74,7 @@ function ArrayFieldComponent({ name }: { name: 'items' | 'skills' }) {
 							</Button>
 						</div>
 						{Object.entries(inputFields).map(([key, value]) => (
-							<ElementMapping formProps={value} />
+							<ElementMapping key={key} formProps={value} />
 						))}
 					</div>
 				</Fragment>
