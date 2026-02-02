@@ -106,7 +106,7 @@ export type FormSchemaType = z.infer<typeof formSchema>;
 
 ### 2.4 Rendering forms
 
-- Wrap the form in **`FormInstantProvider`** with the schema.
+- Wrap the form in **`FormInstantProvider`** with the schema. Pass a stable schema reference (e.g. defined outside the component or memoized with `useMemo`) so the provider does not re-parse the schema on every parent re-render.
 - Use **`FormInstantElement<FormSchemaType> name="..."`** for each **path** in the schema you want to render:
   - **Primitive field:** `name="name"` → a single input.
   - **Nested object:** `name="personalData"` → all fields of `personalData` are rendered (the provider parses the schema and exposes `field.schema`; `FormInstantElement` iterates and uses `ElementMapping` for each child).
