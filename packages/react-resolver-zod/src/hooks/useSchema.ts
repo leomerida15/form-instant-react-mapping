@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { z } from 'zod';
 
 // Types for useSchema hook
@@ -16,6 +16,7 @@ export const getInitialValues = <T extends Data>(schema: T, dp: DP = {}): z.infe
         })();
 
         const initialValues: Record<string, any> = {};
+        const dpKeys = new Set(Object.keys(dp));
 
         for (const key of Object.keys(shape)) {
             const fieldSchema = shape[key];
@@ -27,7 +28,7 @@ export const getInitialValues = <T extends Data>(schema: T, dp: DP = {}): z.infe
                 continue;
             }
 
-            if (Object.keys(dp).includes(key)) {
+            if (dpKeys.has(key)) {
                 initialValues[key] = dp[key];
                 continue;
             }
@@ -82,11 +83,22 @@ export const getInitialValues = <T extends Data>(schema: T, dp: DP = {}): z.infe
 };
 
 /**
- * Hook that provides reactive schema and initial values
+ * Hook that provides reactive schema and initial values.
+ * The schema is recalculated when `dp` changes (by reference).
+ * To avoid unnecessary recalculations when the parent re-renders, pass a stable
+ * `dp` (e.g. memoized with useMemo or from state). The callback `cbP` may be
+ * inline; for maximum clarity it can also be stable (e.g. useCallback).
+ *
+ * @param cbP - Callback that returns the schema given dependencies (and optional preData).
+ * @param dp - Dependencies object; schema and initialValues recompute when this reference changes.
+ * @returns { schema, initialValues }
  */
 export const useSchema = <T extends Data>(cbP: (dp: DP, preData?: Data) => T, dp: DP) => {
+    const cbRef = useRef(cbP);
+    cbRef.current = cbP;
+
     const schema = useMemo(() => {
-        const baseSchema = cbP(dp);
+        const baseSchema = cbRef.current(dp);
         // Check if fieldConfig exists (for backward compatibility)
         if ((baseSchema as any)._fieldConfig) {
             return (baseSchema as any).fieldConfig({
@@ -95,7 +107,7 @@ export const useSchema = <T extends Data>(cbP: (dp: DP, preData?: Data) => T, dp
             }) as T;
         }
         return baseSchema as T;
-    }, [cbP, dp]);
+    }, [dp]);
 
     const initialValues = useMemo(() => getInitialValues<T>(schema, dp), [schema, dp]);
 
