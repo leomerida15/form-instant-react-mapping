@@ -7,6 +7,7 @@ The **Mapping** is a dictionary that associates each `fieldType` (string) with a
 - **Default keys** (`INPUT_COMPONENTS_KEYS`): `'checkbox' | 'date' | 'select' | 'radio' | 'switch' | 'textarea' | 'number' | 'file' | 'text' | 'fallback'`.
 - **Extra keys:** you can extend with your own types (e.g. `email`, `password`, `customSelect`).
 - Each component receives **ParsedField**: `name` (`current`, `history`), `fieldType`, `required`, `default`, `fieldConfig`, and for selects/enums `options` as `[value, label][]`.
+- **Important:** Type your components as `FC<ParsedField<MyInputs['key']>>`, not `FC<FieldConfig<...>>`. At runtime, `ElementMapping` passes a full `ParsedField` object. `FieldConfig` only describes the config shape per field; `ParsedField` is what each component actually receives.
 
 Minimal example (in a file like `providers/input-mapping.tsx`):
 
@@ -106,7 +107,7 @@ export type FormSchemaType = z.infer<typeof formSchema>;
 
 ### 2.4 Rendering forms
 
-- Wrap the form in **`FormInstantProvider`** with the schema.
+- Wrap the form in **`FormInstantProvider`** with the schema. Pass a stable schema reference (e.g. defined outside the component or memoized with `useMemo`) so the provider does not re-parse the schema on every parent re-render.
 - Use **`FormInstantElement<FormSchemaType> name="..."`** for each **path** in the schema you want to render:
   - **Primitive field:** `name="name"` → a single input.
   - **Nested object:** `name="personalData"` → all fields of `personalData` are rendered (the provider parses the schema and exposes `field.schema`; `FormInstantElement` iterates and uses `ElementMapping` for each child).

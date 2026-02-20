@@ -29,6 +29,8 @@ export type ProfileFormValues = z.infer<typeof profileSchema>;
 
 ### 2. Input mapping (with react-hook-form registration)
 
+Type each mapping component as `FC<ParsedField<MyInputs['key']>>`—they receive a full `ParsedField` (name, fieldType, required, fieldConfig, etc.), not `FieldConfig` alone.
+
 For react-hook-form to validate and submit correctly, each rendered input must be **registered**. Use `useFormContext()` inside your mapping components and spread `register(name.history)` (and optionally show errors from `formState.errors`).
 
 ```tsx
