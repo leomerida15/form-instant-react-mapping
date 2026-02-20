@@ -4,7 +4,7 @@
 | -------------------------------------------------------------- | -------------------------------- | --------------------------------------------------------------------- |
 | `InputMapping` / `InputMappingStore`                       | react-input-mapping              | Maps fieldType → React component.                                    |
 | `createFormInstantContainer`                                 | react-input-mapping              | Creates `FormInstantInputsProvider` and `useInputMapping`.        |
-| `ParsedField`, `FieldConfig`                               | react-input-mapping              | Props types for mapping components.                                   |
+| `ParsedField`, `FieldConfig`                               | react-input-mapping              | Use `FC<ParsedField<Ob[K]>>` for components; `FieldConfig` defines the config shape per field. |
 | `ElementMapping`                                             | react-input-mapping              | Renders a single field from `formProps` (fieldType, name, etc.).    |
 | `useInputArray`                                              | react-input-mapping              | For arrays:`inputs`, `append`, `remove`, `fieldConfig`.       |
 | `FormInstantProvider`, `FormInstantElement`, `useFields` | react-resolver-zod               | Schema provider, element per path, hook for a field.                  |
