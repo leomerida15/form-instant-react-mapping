@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import type { FieldConfig, INPUT_COMPONENTS_KEYS } from '.';
+import type { INPUT_COMPONENTS_KEYS, ParsedField } from '.';
 
 /**
  * Auxiliary type to map each key to its corresponding React component.
@@ -9,7 +9,7 @@ import type { FieldConfig, INPUT_COMPONENTS_KEYS } from '.';
  * @template Ob - The object structure defining the Inputs and their types.
  */
 type InputComponentMap<Ob extends Record<string, any>> = {
-    [K in keyof Ob]?: FC<FieldConfig<Ob[K]>>;
+    [K in keyof Ob]?: FC<ParsedField<Ob[K]>>;
 } & {
         [K in INPUT_COMPONENTS_KEYS]?: FC<any>;
     };
@@ -78,7 +78,7 @@ export class InputMapping<Ob extends Record<string, any>> extends Map<
      * @param v - The React component to associate with the key.
      * @returns The current class instance for method chaining.
      */
-    override set<K extends keyof Ob>(k: K, v: FC<Ob[K]>): this;
+    override set<K extends keyof Ob>(k: K, v: FC<ParsedField<Ob[K]>>): this;
     /**
      * Associates a React component with a predefined input component key.
      *

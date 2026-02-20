@@ -47,6 +47,7 @@ The **Mapping** is a dictionary that associates each `fieldType` (string) with a
 - **Default keys** (`INPUT_COMPONENTS_KEYS`): `'checkbox' | 'date' | 'select' | 'radio' | 'switch' | 'textarea' | 'number' | 'file' | 'text' | 'fallback'`.
 - **Extra keys:** you can extend with your own types (e.g. `email`, `password`, `customSelect`).
 - Each component receives **ParsedField**: `name` (`current`, `history`), `fieldType`, `required`, `default`, `fieldConfig`, and for selects/enums `options` as `[value, label][]`.
+- **Important:** Type your components as `FC<ParsedField<MyInputs['key']>>`, not `FC<FieldConfig<...>>`. At runtime, `ElementMapping` passes a full `ParsedField` object. `FieldConfig` only describes the config shape per field; `ParsedField` is what each component actually receives.
 
 Minimal example (in a file like `providers/input-mapping.tsx`):
 
@@ -347,6 +348,8 @@ export type ProfileFormValues = z.infer<typeof profileSchema>;
 ```
 
 ### 2. Input mapping (with react-hook-form registration)
+
+Type each mapping component as `FC<ParsedField<MyInputs['key']>>`—they receive a full `ParsedField`, not `FieldConfig` alone.
 
 For react-hook-form to validate and submit correctly, each rendered input must be **registered**. Use `useFormContext()` inside your mapping components and spread `register(name.history)` (and optionally show errors from `formState.errors`).
 
