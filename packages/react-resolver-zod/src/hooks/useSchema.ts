@@ -112,19 +112,15 @@ export const useSchema = <T extends Data>(cbP: (dp: DP, preData?: Data) => T, dp
     const cbRef = useRef(cbP);
     cbRef.current = cbP;
 
-    const schema = useMemo(() => {
+    return useMemo(() => {
         const baseSchema = cbRef.current(dp);
-        // Check if fieldConfig exists (for backward compatibility)
-        if ((baseSchema as any)._fieldConfig) {
-            return (baseSchema as any).fieldConfig({
-                dp,
-                ...(baseSchema as any)._fieldConfig,
-            }) as T;
-        }
-        return baseSchema as T;
+        const schema = (baseSchema as any)._fieldConfig
+            ? ((baseSchema as any).fieldConfig({
+                  dp,
+                  ...(baseSchema as any)._fieldConfig,
+              }) as T)
+            : (baseSchema as T);
+        const initialValues = getInitialValues<T>(schema, dp);
+        return { schema, initialValues } as const;
     }, [dp]);
-
-    const initialValues = useMemo(() => getInitialValues<T>(schema, dp), [schema, dp]);
-
-    return { schema, initialValues } as const;
 };
