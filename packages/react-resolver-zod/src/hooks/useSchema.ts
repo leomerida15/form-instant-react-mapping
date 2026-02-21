@@ -12,24 +12,35 @@ type FieldHandlerContext = {
     dp: DP;
 };
 
+const isDev =
+    typeof process !== 'undefined' && process.env?.NODE_ENV === 'development';
+
 /**
  * Generates initial values from schema and dependencies
  */
 export const getInitialValues = <T extends Data>(schema: T, dp: DP = {}): z.infer<T> => {
     try {
-        const shape = (() => {
-            if (schema instanceof z.ZodObject) return (schema as z.ZodObject<any>).shape;
-            return {};
-        })();
+        const shape =
+            schema instanceof z.ZodObject
+                ? (schema as z.ZodObject<any>).shape
+                : {};
+
+        const keys = Object.keys(shape);
+        if (keys.length === 0) return {} as z.infer<T>;
 
         const initialValues: Record<string, any> = {};
         const dpKeys = new Set(Object.keys(dp));
+        const ctx: FieldHandlerContext = {
+            initialValues,
+            key: '',
+            fieldSchema: null as unknown as z.ZodTypeAny,
+            dp,
+        };
 
-        for (const key of Object.keys(shape)) {
+        for (const key of keys) {
             const fieldSchema = shape[key];
             const result = fieldSchema.safeParse(undefined);
 
-            // Si tiene valor por defecto
             if (result.success) {
                 initialValues[key] = result.data;
                 continue;
@@ -40,12 +51,13 @@ export const getInitialValues = <T extends Data>(schema: T, dp: DP = {}): z.infe
                 continue;
             }
 
-            // Inferir tipo para campos requeridos sin default
             const fieldType = fieldSchema.constructor.name;
             const fieldHandler = FIELD_HANDLERS[fieldType];
 
             if (fieldHandler) {
-                fieldHandler({ initialValues, key, fieldSchema, dp });
+                ctx.key = key;
+                ctx.fieldSchema = fieldSchema;
+                fieldHandler(ctx);
                 continue;
             }
 
@@ -54,13 +66,9 @@ export const getInitialValues = <T extends Data>(schema: T, dp: DP = {}): z.infe
 
         return initialValues as z.infer<T>;
     } catch (error) {
-        console.log('🔴 initialValues error', error);
-
-        if (error instanceof Error) {
-            console.log(error.cause);
-            console.log(error.message);
+        if (isDev) {
+            console.warn('getInitialValues error', error);
         }
-
         return {} as z.infer<T>;
     }
 };
