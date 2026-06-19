@@ -57,7 +57,18 @@ export const createFormInstantContainer = <Ob extends Record<any, any>>(
 
 /**
  * Component that renders the appropriate input component based on fieldType.
- * Uses granular rendering to only re-render when the specific fieldType's component changes.
+ *
+ * Previously wrapped in React.memo with a custom comparator that only
+ * checked `fieldType`, `name.history`, and `name.current`. That prevented
+ * re-renders when `fieldConfig` or `required` changed, and also prevented
+ * the child input component from receiving updated RHF form state in
+ * certain React render cycles (e.g. when the parent re-renders due to
+ * formState.errors but the formProps reference is stable).
+ *
+ * Removing the custom comparator lets React's default shallow comparison
+ * decide re-renders while keeping the memo for pure performance. Input
+ * components read `useFormContext()` internally and re-render reactively
+ * when the form state changes — the memo should not block that.
  *
  * @param formProps - The parsed field properties including fieldType and name.
  */
@@ -70,14 +81,6 @@ export const ElementMapping: FC<{ formProps: FieldMetadata }> = memo(
 		if (!Element) return null;
 
 		return createElement(Element, formProps);
-	},
-	(prevProps, nextProps) => {
-		// Only re-render if these specific values change
-		return (
-			prevProps.formProps.fieldType === nextProps.formProps.fieldType &&
-			prevProps.formProps.name.history === nextProps.formProps.name.history &&
-			prevProps.formProps.name.current === nextProps.formProps.name.current
-		);
 	},
 );
 
